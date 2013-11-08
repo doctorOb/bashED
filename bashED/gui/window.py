@@ -5,7 +5,11 @@ from java.awt import Dimension
 from java.awt import Toolkit
 
 from panel import Panel
-from consolePanel import ConsolePanel
+from mainPanel import MainPanel
+
+from javax.swing import UIManager
+
+#from console import BashED_Console
 
 #props = System.getProperties()
 #userDir = props['user.dir'];
@@ -14,15 +18,18 @@ from consolePanel import ConsolePanel
 class Window(JFrame):
     def __init__(self):
 
-        size = Dimension(700, 300)
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+        size = Dimension(700, 400)
         self.setPreferredSize(size)
 
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         self.setLocation(screenSize.getSize().width/2 - size.width/2, 100)
         self.setTitle("bashED Terminal HQ EXTREME");
 
+        #self.setUndecorated(True)
 
-        mp = ConsolePanel()
+        mp = MainPanel()
 
         self.add(mp)
 
@@ -35,4 +42,3 @@ class Window(JFrame):
 
 x = Window()
 
-print "end, YOU BITCH";

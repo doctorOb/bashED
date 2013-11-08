@@ -15,55 +15,67 @@ from java.awt.event import KeyAdapter
 from net.miginfocom.swing import MigLayout
 from panel import Panel
 
-
-from javax.swing import JLabel
+from javax.swing import JPanel
 from javax.swing import JTextPane
 from javax.swing import JTextField
 
 class ConsolePanel(Panel):
 	
-	title = None
 	outText = None
 	outTextScroller = None
+	nestedInputPanel = None
 	inText = None
-	
+	directoryText = None
 
 	def __init__(self):
-		Panel.__init__(self)
+		Panel.__init__(self, "insets 0 0 0 0")
 		
 
 
 	def initUI(self):
-		self.title = JLabel("bashED")
+
+		#create the output text panel
 		self.outText = JTextPane()
 		self.outText.setEditable(False)
-
-		#d = Dimension(50, 50)
-		#self.outText.setMaximumSize(d)
 		self.outTextScroller = JScrollPane(self.outText)
 
-
+		#create the input text box
 		self.inText = JTextField()
 		self.inText.setFocusTraversalKeysEnabled(False)
 
-		self.inText.setText("")
-		
-		inT = self.inText
-		outT = self.outText
+		#create the directory text box
+		self.directoryText = JTextField()
+		self.directoryText.setEditable(False)
+		self.directoryText.setText("~/agent")
+
+		#create the listener that fires when the 'return' key is pressed
 		class InputTextActionListener(ActionListener):
-			def actionPerformed(self, e):
-				print inT.getText()
-				outT.setText(outT.getText() + "\n" + inT.getText())
-				inT.setText("")
+			def actionPerformed(selfButton, e):
+				#print self.getCommandText()
+				self.outText.setText(self.outText.getText() + "\n" + self.inText.getText())
+				self.setDirectoryText(self.outText.getText())
+				self.inText.setText("")
+
+		#create the listener that fires whenever a user hits a key
 		class InputKeyActionListener(KeyAdapter):
 			def keyReleased(self, k):
 				print str(k.getKeyCode()) + ":\t" + k.getKeyChar()
 
+		#register the listeners
 		self.inText.addActionListener(InputTextActionListener())
 		self.inText.addKeyListener(InputKeyActionListener())
 
+		#create a nested panel that will house the directory and the input text box
+		self.nestedInputPanel = Panel("Insets 0 0 0 0")
+
+
 
 	def addUI(self):
-		self.add(self.title, "cell 0 0")
-		self.add(self.outTextScroller, "cell 0 1, push, grow")
-		self.add(self.inText, "cell 0 2, pushx, growx")
+		self.add(self.outTextScroller, "cell 0 0, push, grow")
+		self.add(self.nestedInputPanel, "cell 0 1, pushx, growx")
+		self.nestedInputPanel.add(self.directoryText, "cell 0 0")
+		self.nestedInputPanel.add(self.inText, "cell 1 0, spanx, pushx, growx")
+
+	def setDirectoryText(self, dirText):
+		self.directoryText.setText(dirText)
+		self.nestedInputPanel.revalidate()
