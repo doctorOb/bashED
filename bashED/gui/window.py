@@ -4,6 +4,8 @@ from javax.swing import JFrame
 from java.awt import Dimension
 from java.awt import Toolkit
 
+from panel import Panel
+from consolePanel import ConsolePanel
 
 #props = System.getProperties()
 #userDir = props['user.dir'];
@@ -17,9 +19,12 @@ class Window(JFrame):
 
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         self.setLocation(screenSize.getSize().width/2 - size.width/2, 100)
-
-
         self.setTitle("bashED Terminal HQ EXTREME");
+
+
+        mp = ConsolePanel()
+
+        self.add(mp)
 
         #make the window viewable
         self.defaultCloseOperation=JFrame.EXIT_ON_CLOSE
