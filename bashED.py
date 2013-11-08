@@ -2,22 +2,42 @@ import argparse
 import os
 
 STATE_FILE = os.path.join("bashED", "state.py")
+MISSION_DIR = os.path.join("bashED", "missions")
 
 
 def play():
+    scenario = load_scenario()
+    if scenario.validate():
+        scenario.print_correct()
+        #somehow get the next scenario, load that in, and write to the STATE_FILE
+        pass
+    else:
+        print "Not quite the correct solution. Run `bashed --hint` if you need more help, and `bashed --reset` to start over."
+
+
+def hint():
+    scenario = load_scenario()
+    scenario.print_hint()
+
+
+def reset():
+    scenario = load_scenario()
+    scenario.recover()
+    pass
+
+
+def load_scenario():
     state = {}
     execfile(STATE_FILE, state)
-    #current_scenario a string, initialized a bool
-
+    #current_mission a string, current_scenario a string, initialized a bool
     if not state['initialized']:
         #GET THE FIRST SCENARIO OF SOME MISSION, AND THEN call the setup thingymabober
         pass
     elif not state['current_scenario']:
         raise "ERROR! The state says initialized, but there is no current_scenario set."
     else:
-        #load up the current scenario object
-        #call the "yo did it pass?" function from the current scenario
-        pass
+        return None
+        #load up the scenario defined in state['current_scenario'] and return it!
 
 
 if __name__ == '__main__':
@@ -32,6 +52,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if args.play:
         play()
+    elif args.hint:
+        hint()
+    elif args.reset:
+        reset()
 
 
     #need to store the current state somewhere.
