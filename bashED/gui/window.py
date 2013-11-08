@@ -3,6 +3,7 @@ from java.lang import System
 from javax.swing import JFrame
 from java.awt import Dimension
 from java.awt import Toolkit
+from java.awt import Color
 
 from panel import Panel
 from mainPanel import MainPanel
@@ -29,8 +30,9 @@ class Window(JFrame):
 
         #self.setUndecorated(True)
 
-        mp = MainPanel()
+        self.setBackground(Color(255,0,0))
 
+        mp = MainPanel()
         self.add(mp)
 
         #make the window viewable
