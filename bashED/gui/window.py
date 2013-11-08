@@ -14,7 +14,7 @@ from consolePanel import ConsolePanel
 class Window(JFrame):
     def __init__(self):
 
-        size = Dimension(700, 500)
+        size = Dimension(700, 300)
         self.setPreferredSize(size)
 
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
