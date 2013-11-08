@@ -5,7 +5,6 @@ from javax.swing import JScrollPane
 
 from java.awt import Dimension
 from java.awt import Color
-from java.awt import Font
 
 from java.awt.event import ActionListener
 from java.awt.event import KeyListener
@@ -49,41 +48,44 @@ class ConsolePanel(Panel):
 
 	def initUI(self):
 
-		font = Font("Courier", Font.PLAIN, 14)
-
 		#create the output text panel
 		self.outText = JTextPane()
 		self.outText.setEditable(False)
-		self.outText.setFont(font)
 		self.outTextScroller = JScrollPane(self.outText)
-
 
 		#create the input text box
 		self.inText = JTextField()
 		self.inText.setFocusTraversalKeysEnabled(False)
-		self.inText.setFont(font)
 
 		#create the directory text box
 		self.directoryText = JTextField()
 		self.directoryText.setEditable(False)
-		self.directoryText.setFont(font)
-		self.directoryText.setText("~/agent")
+		import sys
+		sys.stdout = FakeOut(self.outText)
+		self.console = BashED_Console(stdout=sys.stdout)
+		self.directoryText.setText(self.console.prompt)
 
 		#create the listener that fires when the 'return' key is pressed
 		class InputTextActionListener(ActionListener):
-			def actionPerformed(selfButton, e):
+			def __init__(self,console):
+				self.console = console
+
+			def actionPerformed(selfBtn, e):
 				#print self.getCommandText()
+				selfBtn.console.onecmd(self.inText.getText())
 				self.outText.setText(self.outText.getText() + "\n" + self.inText.getText())
-				self.setDirectoryText(self.outText.getText())
+
+				self.setDirectoryText(selfBtn.console.prompt)
 				self.inText.setText("")
 
 		#create the listener that fires whenever a user hits a key
 		class InputKeyActionListener(KeyAdapter):
 			def __init__(self,console):
 				self.console = console
-			def keyReleased(self, k):
+
+			def keyReleased(selfBtn, k):
 				if k.getKeyCode() == 9: #tab character
-					inT.setText(self.console.tabcomplete(self,inT.getText()))
+					inT.setText(selfBtn.console.tabcomplete(self,inT.getText()))
 		self.inText.addActionListener(InputTextActionListener(self.console))
 		self.inText.addKeyListener(InputKeyActionListener(self.console))
 
