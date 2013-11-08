@@ -15,7 +15,6 @@ class Panel(JPanel):
 		self.addUI()
 
 		self.setVisible(True)
-		print "panel"
 
 	def initUI(self):
 		pass
