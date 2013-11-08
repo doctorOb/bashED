@@ -29,6 +29,10 @@ def file_matches(attempt, goal, scenario):
     return False
 
 
+def prompt(message, goal):
+    return raw_input(message) == goal
+
+
 if __name__ == '__main__':
     print dir_exists("durr")
     print file_exists("test_file.txt")
