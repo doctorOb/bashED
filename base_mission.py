@@ -1,4 +1,4 @@
-
+import os
 
 class Mission():
 	
@@ -17,6 +17,6 @@ class Mission():
 		self.sandbox = os.path.join(self.dir, "..", "..", "..", "..", "sandbox")
 		self.chkpoint = os.path.join(self.dir, "..", "..", "..", "..", "checkpoint")
 		if os.path.isdir(self.sandbox):
-            shutil.rmtree(self.sandbox)
-        if os.path.isdir(self.chkpoint):
-            shutil.rmtree(self.chkpoint)
+			shutil.rmtree(self.sandbox)
+		if os.path.isdir(self.chkpoint):
+			shutil.rmtree(self.chkpoint)
