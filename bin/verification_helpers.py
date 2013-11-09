@@ -29,7 +29,7 @@ def file_matches(attempt, goal):
 
 
 def prompt(message, goal):
-    return raw_input(message) == goal
+    return raw_input(message+"\n") == goal
 
 
 if __name__ == '__main__':
