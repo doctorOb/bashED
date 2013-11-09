@@ -2,10 +2,12 @@
 import os
 
 from verification_helpers import prompt, SCENARIO_DIR
+import BashED_Scenario
 
 
-class LsScenario():#this should eventually be a subclass of the main Scenario, but that doesn't exist yet...
-#I'm looking at you Tyler Stone
+class LsScenario(BashED_Scenario):
+    #this should eventually be a subclass of the main Scenario, but that doesn't exist yet...
+    #I'm looking at you Tyler Stone
 
     def __init__(self):
         self.scenario_description = ("You're a secret agent and you need to get into "
@@ -18,5 +20,5 @@ class LsScenario():#this should eventually be a subclass of the main Scenario, b
         self.path = os.path.join(SCENARIO_DIR, "ls_find_file")
         self.win_message = "Great job! You found the file!"
 
-    def verify(self):
+    def validate(self):
         return prompt("Enter the name of the secret file", "passwords.txt")
