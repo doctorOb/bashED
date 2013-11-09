@@ -27,14 +27,11 @@ class MainPanel(Panel):
 
 	def initUI(self):
 		self.consolePanel = ConsolePanel()
-
-		self.dialogsPanel = DialogPanel()
+		self.dialogsPanel = DialogPanel(self.consolePanel)
 		self.dialogsPanel.setMinimumSize(Dimension(1, 112))
 		self.dialogsPanel.setMaximumSize(Dimension(9999, 112))
-
 		self.title = JLabel("BashED")
 		self.title.setFont(Font("Arial", Font.BOLD, 24))
-		
 
 	def addUI(self):
 		self.add(self.title, "cell 0 0")
