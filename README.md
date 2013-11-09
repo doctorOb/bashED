@@ -25,9 +25,10 @@ pyhton bashed_run.py --reset
 ```
 
 For users already proficient in using the terminal, they can easily add their own tasks to missions! Steps:
-# create a folder in bashED/missions/<some_mission>/scenarios/, for example, you might call it "new_task"
-# add "new task to the list bashED/mission/<some_mission>/scenario_order.txt
-# in your new_task folder, add a folder setup which contains the files your task has to add to setup the sandbox
-# finally, make a subclass of base_scenario, (called Scenario) and define your own strings representing the messages, tasks, and verification conditions!
+
+* create a folder in bashED/missions/<some_mission>/scenarios/, for example, you might call it "new_task"
+* add "new task to the list bashED/mission/<some_mission>/scenario_order.txt
+* in your new_task folder, add a folder setup which contains the files your task has to add to setup the sandbox
+* finally, make a subclass of base_scenario, (called Scenario) and define your own strings representing the messages, tasks, and verification conditions!
 
 Have fun, and hopefully this makes the unix command line interface much less terrifying!
