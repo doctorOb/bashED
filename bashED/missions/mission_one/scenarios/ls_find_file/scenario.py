@@ -12,7 +12,7 @@ class Scenario(base_scenario.Scenario):
                                      "password to the system. Use the `ls` command "
                                      "to see the files in the current directory, and "
                                      "find the files with the passwords!")
-        self.hint = "type `ls` and see which file might contain the passwords, then type `bashed play` to continue"
+        self.hint = "type 'ls' and see which file might contain the passwords, then type 'bashed play' to continue"
         self.win_message = "Great job! You found the file!"
         self.dir = os.path.dirname(os.path.realpath(__file__))
 

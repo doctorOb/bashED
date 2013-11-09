@@ -91,6 +91,7 @@ def load_state():
             state['scenario'] = sstr
             state['initialized'] = True
 
+            mission.clean_dirs()
             mission.print_prompt()
             scenario.setup()
             scenario.print_prompt()
