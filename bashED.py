@@ -35,6 +35,7 @@ def play():
                 exit(0)
             else:
                 next_mission = get_next_mission(state['mission'])
+                next_mission.clean_dirs()
                 next_mission.print_prompt()
                 state['mission'] = next_mission_str
                 next_scenario_str = get_first_scenario_str((state['mission']))
