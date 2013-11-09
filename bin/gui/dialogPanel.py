@@ -8,7 +8,7 @@ from panel import Panel
 from buttonPanel import ButtonPanel 
 from java.awt import Color
 from java.awt import Font
-import bashED
+import bashed_run
 
 class DialogPanel(Panel):
 

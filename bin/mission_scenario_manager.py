@@ -1,5 +1,4 @@
 import os
-import importlib
 import imp
 
 THIS_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -16,13 +15,13 @@ def get_scenario_by_str(mission_str, scenario_str):
 
 
 def get_first_mission_str():
-    with open(MISSION_ORDER, 'r') as f:
-        return f.readline()[:-1]
+    f = open(MISSION_ORDER, 'r')
+    return f.readline()[:-1]
 
 
 def get_first_scenario_str(mission_str):
-    with open(os.path.join(MISSION_DIR, mission_str, SCENARIO_FILE)) as f:
-        return f.readline()[:-1]
+    f = open(os.path.join(MISSION_DIR, mission_str, SCENARIO_FILE))
+    return f.readline()[:-1]
 
 
 def get_first_mission():
@@ -44,14 +43,14 @@ def get_next_mission_str(prev_mission):
     if not prev_mission:
         return get_first_mission_str()
 
-    with open(MISSION_ORDER, 'r') as f:
-        while True:
-            line = f.readline()
-            if not line:
-                break
-            if line[:-1] == prev_mission:
-                break
-        return f.readline()[:-1]
+    f = open(MISSION_ORDER, 'r')
+    while True:
+        line = f.readline()
+        if not line:
+            break
+        if line[:-1] == prev_mission:
+            break
+    return f.readline()[:-1]
 
 
 def get_next_scenario_str(curr_mission, prev_scenario):
@@ -59,14 +58,14 @@ def get_next_scenario_str(curr_mission, prev_scenario):
     empty string if that was the last scenario defined"""
     if not prev_scenario:
         return get_first_scenario_str()
-    with open(os.path.join(MISSION_DIR, curr_mission, SCENARIO_FILE), 'r') as f:
-        while True:
-            line = f.readline()
-            if not line:
-                break
-            if line[:-1] == prev_scenario:
-                break
-        return f.readline()[:-1]
+    f = open(os.path.join(MISSION_DIR, curr_mission, SCENARIO_FILE), 'r')
+    while True:
+        line = f.readline()
+        if not line:
+            break
+        if line[:-1] == prev_scenario:
+            break
+    return f.readline()[:-1]
 
 
 def get_next_mission(prev_mission):
