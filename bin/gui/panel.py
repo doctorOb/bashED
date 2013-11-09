@@ -8,6 +8,7 @@ from java.awt.event import MouseEvent
 from java.awt.event import MouseMotionAdapter
 from javax.swing import SwingUtilities
 from net.miginfocom.swing import MigLayout
+import bashED
 
 class Panel(JPanel):
 	def __init__(self, migLayoutSettings = ""):

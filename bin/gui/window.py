@@ -1,14 +1,13 @@
+
+
 from java.lang import System
 
 from javax.swing import JFrame
 from java.awt import Dimension
 from java.awt import Toolkit
 from java.awt import Color
-
-
-
-from panel import Panel
 from mainPanel import MainPanel
+from panel import Panel
 
 from javax.swing import JRootPane
 from javax.swing import BorderFactory
@@ -18,6 +17,7 @@ from javax.swing import ImageIcon
 from javax.swing import JLayeredPane
 from javax.swing import JLabel
 from javax.swing import JDesktopPane
+import bashED
 #from console import BashED_Console
 
 #props = System.getProperties()
@@ -46,7 +46,7 @@ class Window(JFrame):
         #j.setOpaque(False)
         self.setLayout(None)
 
-        self.setIconImage(ImageIcon(ASSET_BASE + "icon.png").getImage())
+        self.setIconImage(ImageIcon('bin/gui/media/' + "icon.png").getImage())
 
 
 
@@ -56,7 +56,7 @@ class Window(JFrame):
         mp.setBounds(0, 0, size.width, size.height)
 
 
-        imageTest = ImageIcon(ASSET_BASE + "image.png")
+        imageTest = ImageIcon('bin/gui/media/' + "image.png")
         imageTestLabel = JLabel(imageTest)
         self.add(imageTestLabel)
         imageTestLabel.setBounds(0, 0, size.width, size.height)
