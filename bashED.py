@@ -5,7 +5,7 @@ import json
 from mission_scenario_manager import get_first_mission_str, get_first_mission, get_scenario_by_str, get_first_scenario_str, get_first_scenario, get_next_scenario_str, get_next_mission_str
 
 
-STATE_FILE = os.path.join("bashED", "state.py")
+STATE_FILE = os.path.join("bashED", "state.json")
 MISSION_DIR = os.path.join("bashED", "missions")
 
 
@@ -88,10 +88,10 @@ def load_state():
             write_state(state)
             exit(0)
             #yeah this is probably a bad idea, but it's the "right" thing to do? right? it's only 3:35am...
-        elif not state['current_mission']:
-            raise "ERROR! The state says initialized, but there is no current_misison set."
-        elif not state['current_scenario']:
-            raise "ERROR! The state says initialized, but there is no current_scenario set."
+        elif not state['mission']:
+            raise "ERROR! The state says initialized, but there is no misison set."
+        elif not state['scenario']:
+            raise "ERROR! The state says initialized, but there is no scenario set."
         else:
             return (get_scenario_by_str(state['mission'], state['scenario']), state)
 
