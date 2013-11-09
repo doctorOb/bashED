@@ -25,7 +25,6 @@ def play():
                 exit(0)
             else:
                 next_mission = get_next_mission(state['mission'])
-                next_mission.setup()
                 next_mission.print_prompt()
                 state['mission'] = next_mission_str
                 next_scenario_str = get_first_scenario_str((state['mission']))
@@ -81,7 +80,6 @@ def load_state():
             state['scenario'] = sstr
             state['initialized'] = True
 
-            mission.setup()
             mission.print_prompt()
             scenario.setup()
             scenario.print_prompt()
