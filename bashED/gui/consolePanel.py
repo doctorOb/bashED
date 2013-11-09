@@ -22,9 +22,9 @@ from javax.swing import JPanel
 from javax.swing import JTextPane
 from javax.swing import JTextField
 
+import sys
 
 from console import *
-import sys
 
 class FakeOut():
 	def __init__(self,outText):
@@ -60,9 +60,6 @@ class ConsolePanel(Panel):
 
 		font = Font("Courier", Font.BOLD, 14)
 
-
-
-
 		#create the output text panel
 		self.outText = JTextPane()
 		self.outText.setEditable(False)
@@ -96,7 +93,6 @@ class ConsolePanel(Panel):
 		self.directoryText.setBackground(Color(0, 20, 0))
 		self.directoryText.setForeground(Color.WHITE)
 		#set up the console
-		import sys
 		sys.stdout = FakeOut(self.outText)
 		self.console = BashED_Console(stdout=sys.stdout)
 		self.directoryText.setText(self.console.get_prompt())
@@ -121,7 +117,11 @@ class ConsolePanel(Panel):
 				# dirTex.setText(self.console.get_prompt())
 				# self.inp.setText("")
 				print('####'+ self.console.get_prompt())
-				self.console.onecmd(self.inp.getText())
+
+				if 'clear' in self.inp.getText().split(' ')[0]:
+					self.out.setText("") #clear the screen
+				else:
+					self.console.onecmd(self.inp.getText())
 				self.parent.write_out("\n" + self.inp.getText())
 				dirTex.setText(self.console.get_prompt())
 				self.inp.setText("")
@@ -150,7 +150,7 @@ class ConsolePanel(Panel):
 					hist = self.console.last_hist()
 
 				if hist:
-					self.inp.setText(hist)
+					self.inp.setText(hist.rstrip('\n'))#prevent from firing
 
 		self.inText.addActionListener(InputTextActionListener(self,self.inText,self.outText,self.console))
 		self.inText.addKeyListener(InputKeyActionListener(self,self.inText,self.outText,self.console))
