@@ -10,22 +10,48 @@ from java.awt import Color
 from java.awt import Font
 import bashed_run
 
+import threading
+import time
+
 class DialogPanel(Panel):
 
 	manImage = None #image
+	manImageSilent = None
 	manLabel = None #label
 	dialogText = None
 	dialogTextScroller = None
 	buttonsPanel = None
 
 
+	def speak(self, text):
+		self.dialogText.setText("")
+		self.manLabel.setIcon(self.manImage)
+		class Typer(threading.Thread):
+			def __init__(thrd, text):
+				threading.Thread.__init__(thrd)
+				thrd.text = text
+			def run(thrd):
+				for i in range(0, len(thrd.text)):
+					#print str(text[i])
+					self.dialogText.setText(self.dialogText.getText() + text[i])
+					time.sleep(.1)
+				self.manLabel.setIcon(self.manImageSilent)
+		Typer(text).start()
+		
+
 	def __init__(self, inconsolePanel):
 		self.consolePanel = inconsolePanel
 		Panel.__init__(self, "insets 0 0 0 0")
+		self.speak("My name is Captain danglewood! Help me find my lost crew in this hell pit of unix!!!")
 
 
 	def initUI(self):
+<<<<<<< HEAD
+		self.manImage = ImageIcon("danglewood.gif")
+		self.manImageSilent = ImageIcon("danglewood-silent.png")
+=======
 		self.manImage = ImageIcon('bin/gui/media/' + "danglewood.gif")
+>>>>>>> e84d0d6bbe3e7559d432f670afe4b5810ea8a650
 		self.manLabel = JLabel(self.manImage)
 
 		self.dialogText = JTextPane()
