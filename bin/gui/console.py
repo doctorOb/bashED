@@ -116,17 +116,17 @@ class BashED_Console(cmd.Cmd):
         """calls the play script from the head game file"""
         #bashed_run.play()
 
-        self.do_no_shell([BASHED,' --play'])
+        self.do_shell([BASHED,' --play'])
 
     def do_reset(self,args):
         """resets the game state"""
-        self.do_no_shell([BASHED,' --reset'])
+        self.do_shell([BASHED,' --reset'])
         #bashed_run.reset()
 
     def do_hint(self,args):
         """gives a scenario specific hint to the user"""
         #bashed_run.hint()
-        self.do_no_shell([BASHED,' --hint'])
+        self.do_shell([BASHED,' --hint'])
 
 
 
