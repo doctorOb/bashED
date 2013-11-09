@@ -14,7 +14,7 @@ class Panel(JPanel):
 		self.setLayout(MigLayout(migLayoutSettings))
 
 		self.initialClick = Point(0, 0)
-		#self.setOpaque(False)
+		self.setOpaque(False)
 		self.setBackground(Color(0,30,0, 40))
 		#self.setBorder(BorderFactory.createLineBorder(Color.RED))
 
