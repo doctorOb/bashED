@@ -21,20 +21,20 @@ class ButtonPanel(Panel):
 		self.setBackground(Color(0, 50, 0))
 
 		self.playButton = JButton("PLAY")
-		self.playButton.setForeground(Color(0, 255, 0))
+		self.playButton.setForeground(Color(0, 245, 0))
 		#self.playButton.setBackground(Color(125, 125, 25))
 		self.playButton.setContentAreaFilled(False)
 
 		self.helpButton = JButton("HELP")
-		self.helpButton.setForeground(Color(0, 255, 0))
+		self.helpButton.setForeground(Color(0, 235, 0))
 		self.helpButton.setContentAreaFilled(False)
 
 		self.resetButton = JButton("RESET")
-		self.resetButton.setForeground(Color(0, 255, 0))
+		self.resetButton.setForeground(Color(0, 225, 0))
 		self.resetButton.setContentAreaFilled(False)
 
 		self.exitButton = JButton("EXIT")
-		self.exitButton.setForeground(Color(0, 255, 0))
+		self.exitButton.setForeground(Color(0, 215, 0))
 		self.exitButton.setContentAreaFilled(False)
 
 
