@@ -1,9 +1,9 @@
 import os
 import base_scenario
 
-from verification_helpers import prompt, SCENARIO_DIR
+from verification_helpers import prompt
 
-class LsScenario(base_scenario.Scenario):
+class Scenario(base_scenario.Scenario):
 
     def __init__(self):
         self.scenario_description = ("You're a secret agent and you need to get into "
@@ -13,12 +13,8 @@ class LsScenario(base_scenario.Scenario):
                                      "to see the files in the current directory, and "
                                      "find the files with the passwords!")
         self.hint = "type `ls` and see which file might contain the passwords, then type `bashed play` to continue"
-        self.path = os.path.join(SCENARIO_DIR, "ls_find_file")
         self.win_message = "Great job! You found the file!"
+        self.dir = os.path.dirname(os.path.realpath(__file__))
 
     def validate(self):
         return prompt("Enter the name of the secret file", "passwords.txt")
-
-if __name__ == '__main__':
-    ls = LsScenario()
-    ls.recover()
