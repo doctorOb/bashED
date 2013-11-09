@@ -1,6 +1,7 @@
 import os
 import cmd
 import readline
+import sys
 import subprocess
 
 DIR_SPECIALS = ['cd','pushd','popd']
@@ -14,24 +15,16 @@ def error(msg):
     if SHOW_ERROR:
         print(msg)
 
-class FakeOut():
-    def __init__(self,outText):
-        self.outText = outText
 
-    def write(self,text):
-        #dont print in here
-        self.outText.setText(self.outText.getText() + text)
 
 class BashED_Console(cmd.Cmd):
 
     def __init__(self,stdin=None,stdout=None):
-        import sys
-        cmd.Cmd.__init__(self,stdin=None,stdout=FakeOut('adsf'))
-        self.prompt = os.getcwd() + SHELL_START
+        cmd.Cmd.__init__(self,stdin=stdin,stdout=stdout)
+        self.prompt = SHELL_START
         self.intro  = "Welcome to console!"  ## defaults to None
         self._root = os.getcwd()
-
-        cmd.Cmd.stdout = stdout
+        self.stdout = stdout
         self._specials = {
             'cd' : self.chdir,
             'pushd' : self.pushd,
@@ -70,6 +63,10 @@ class BashED_Console(cmd.Cmd):
     def update_prompt(self):
         self.prompt = os.getcwd() + SHELL_START
 
+    def get_prompt(self):
+        print(self._root)
+        return self.prompt.replace(self._root,'')
+
     def get_hist(self, args):
         """return a list of commands that have been entered"""
         return self._hist
@@ -80,7 +77,7 @@ class BashED_Console(cmd.Cmd):
 
     def do_shell(self, args):
         """Pass command to a system shell when line begins with '!'"""
-        os.system(args)
+        print subprocess.Popen(args, stdout=subprocess.PIPE, shell=True).communicate()[0]
 
     ## Override methods in Cmd object ##
     def preloop(self):
@@ -153,6 +150,17 @@ class BashED_Console(cmd.Cmd):
 
         return [x for x in os.listdir(search_dir) if x.startswith(text)]
 
+    def tabcomplete(self,text,line):
+        parts = line.split(' ')
+        if len(parts) > 1:
+            text = parts[len(parts) - 1]
+        else:
+            text = line
+        print('complete text',text)
+        return self.completedefault(text,line,0,0)
+
+
+
     def default(self, line):       
         """called when the command is not recognized as one of those defined above. 
         self.do_shell(line)"""
@@ -163,9 +171,4 @@ class BashED_Console(cmd.Cmd):
             self._specials[shell_cmd](line)
         else:
             self.do_shell(line)
-
-
-if __name__ == '__main__':
-    console = BashED_Console()
-    console.onecmd('ls')
 

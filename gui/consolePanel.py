@@ -60,12 +60,10 @@ class ConsolePanel(Panel):
 		#create the directory text box
 		self.directoryText = JTextField()
 		self.directoryText.setEditable(False)
-
-		#set up the console
 		import sys
 		sys.stdout = FakeOut(self.outText)
 		self.console = BashED_Console(stdout=sys.stdout)
-		self.directoryText.setText(self.console.get_prompt())
+		self.directoryText.setText(self.console.prompt)
 
 		#create the listener that fires when the 'return' key is pressed
 		class InputTextActionListener(ActionListener):
@@ -77,7 +75,7 @@ class ConsolePanel(Panel):
 				selfBtn.console.onecmd(self.inText.getText())
 				self.outText.setText(self.outText.getText() + "\n" + self.inText.getText())
 
-				self.setDirectoryText(selfBtn.console.get_prompt())
+				self.setDirectoryText(selfBtn.console.prompt)
 				self.inText.setText("")
 
 		#create the listener that fires whenever a user hits a key
