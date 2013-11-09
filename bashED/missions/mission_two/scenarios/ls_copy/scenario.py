@@ -6,15 +6,10 @@ from verification_helpers import *
 class Scenario(base_scenario.Scenario):
 
     def __init__(self):
-        self.scenario_description = ("You're a secret agent and you need to get into "
-                                     "some system or something like that. There's a "
-                                     "file in this directory that contains the "
-                                     "password to the system. Use the `ls` command "
-                                     "to see the files in the current directory, and "
-                                     "find the files with the passwords!")
-        self.hint = "type `ls` and see which file might contain the passwords, then type `bashed play` to continue"
-        self.win_message = "Great job! You found the file!"
+        self.scenario_description = ("Make sure a directory 'durr' exists, and in that directory is an empty file called 'df.txt'. Also, there must be a file 'f.txt', containing only the text 'a character'. Also, enter 'yale'.")
+        self.hint = "'touch file.txt' creates an empty file called file.txt. mkdir makes directories. echo 'a string' > file.txt make the contents of file.txt be 'a string'"
+        self.win_message = "Great job! You did it!"
         self.dir = os.path.dirname(os.path.realpath(__file__))
 
     def validate(self):
-        return dir_exists("durr") and file_exists(os.path.join("durr", "df.txt")) and file_exists("f.txt") and file_matches('f.txt', os.path.join(self.dir, 'f.txt')) and prompt("Enter the name of the secret file", "passwords.txt") 
+        return dir_exists("durr") and file_exists(os.path.join("durr", "df.txt")) and file_exists("f.txt") and file_matches('f.txt', os.path.join(self.dir, 'f.txt')) and prompt("Enter something", "yale") 

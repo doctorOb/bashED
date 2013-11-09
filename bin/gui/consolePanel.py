@@ -1,3 +1,5 @@
+
+
 from java.lang import System
 from javax.swing import JPanel
 from javax.swing import BorderFactory
@@ -15,7 +17,6 @@ from java.awt.event import KeyAdapter
 
 from net.miginfocom.swing import MigLayout
 from panel import Panel
-
 
 from javax.swing import JLabel
 from javax.swing import JPanel
@@ -134,13 +135,12 @@ class ConsolePanel(Panel):
 				# self.parent.write_out("\n" + self.inp.getText())
 				# dirTex.setText(self.console.get_prompt())
 				# self.inp.setText("")
-				print('####'+ self.console.get_prompt())
-
+				self.parent.write_out(self.console.get_prompt() + self.inp.getText() + '\n')
 				if 'clear' in self.inp.getText().split(' ')[0]:
 					self.out.setText("") #clear the screen
 				else:
 					self.console.onecmd(self.inp.getText())
-				self.parent.write_out("\n" + self.inp.getText())
+				
 				dirTex.setText(self.console.get_prompt())
 				self.inp.setText("")
 
@@ -159,8 +159,13 @@ class ConsolePanel(Panel):
 					if len(autos) == 1:
 						self.inp.setText(autos[0])
 					else:
+						i = 0
 						for option in autos:
 							self.parent.write_out(option)
+							if i % 3 == 0:
+								print('\n')
+							else:
+								print('\t')
 				hist = None
 				if k.getKeyCode() == 38:
 					hist = self.console.next_hist()

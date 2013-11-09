@@ -1,3 +1,5 @@
+
+import bashED
 from java.lang import System
 
 from java.awt import Dimension
@@ -6,13 +8,15 @@ from java.awt import Font
 
 from javax.swing import JButton
 from javax.swing import JLabel
-from panel import Panel 
+from panel import Panel
 from consolePanel import ConsolePanel
 from dialogPanel import DialogPanel
 from javax.swing import SwingUtilities
 from java.awt.event import MouseAdapter
 from java.awt.event import MouseMotionAdapter
 from java.awt.event import MouseEvent
+from os import path
+
 
 
 class MainPanel(Panel):

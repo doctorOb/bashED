@@ -1,6 +1,7 @@
 import os
 import shutil
 import glob
+import distutils.dir_util
 
 class Scenario():
 
@@ -14,8 +15,9 @@ class Scenario():
         self.src = os.path.join(self.dir, "setup")
         self.dest = os.path.join(self.dir, "..", "..", "..", "..", "sandbox")
         if os.path.isdir(self.dest):
-            shutil.rmtree(self.dest)
-        shutil.copytree(self.src, self.dest)
+            distutils.dir_util.copy_tree(self.src, self.dest)
+        else:
+            shutil.copytree(self.src, self.dest)
         self.checkpoint()
 
     def checkpoint(self):
