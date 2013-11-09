@@ -17,7 +17,7 @@ from java.awt.event import KeyAdapter
 from java.awt.event import FocusListener
 from java.awt.event import FocusAdapter
 from java.awt.event import FocusEvent
-
+from javax.swing import ScrollPaneConstants
 from net.miginfocom.swing import MigLayout
 from panel import Panel
 
@@ -25,6 +25,7 @@ from javax.swing import JLabel
 from javax.swing import JPanel
 from javax.swing import JTextPane
 from javax.swing import JTextField
+from javax.swing import JTextArea
 from javax.swing.text import Caret
 import threading
 import time
@@ -77,9 +78,11 @@ class ConsolePanel(Panel):
 		font = Font("Courier New", Font.BOLD, 14)
 
 		#create the output text panel
-		self.outText = JTextPane()
+		self.outText = JTextArea()
 		self.outText.setEditable(False)
 		self.outText.setFont(font)
+		self.outText.setWrapStyleWord(True)
+		self.outText.setLineWrap(True)
 		#self.outText.setLineWrap(True)
 		#self.outText.setWrapStyleWord(True)
 		class NoGhostScroller(JScrollPane):
@@ -90,6 +93,8 @@ class ConsolePanel(Panel):
 				#super(NoGhostScroller, self).paintComponent(g)
 
 		self.outTextScroller = JScrollPane(self.outText)
+		self.outTextScroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER)
+		self.outTextScroller.getVerticalScrollBar().setForeground(Color(255, 0, 0))
 		#self.outText.setOpaque(False)
 		self.outText.setBackground(Color(0, 20, 0))
 		self.outText.setForeground(Color.WHITE)

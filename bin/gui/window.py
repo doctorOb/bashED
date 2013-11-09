@@ -17,6 +17,7 @@ from javax.swing import ImageIcon
 from javax.swing import JLayeredPane
 from javax.swing import JLabel
 from javax.swing import JDesktopPane
+from javax.swing.plaf import ColorUIResource
 #import bashed_run
 #from console import BashED_Console
 
@@ -28,6 +29,7 @@ class Window(JFrame):
     def __init__(self):
 
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
 
         size = Dimension(800, 800)
         self.setPreferredSize(size)
