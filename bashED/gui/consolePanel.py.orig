@@ -77,18 +77,26 @@ class ConsolePanel(Panel):
 		#create the directory text box
 		self.directoryText = JTextField()
 		self.directoryText.setEditable(False)
+<<<<<<< HEAD
+		self.nestedInputPanel = Panel("Insets 0 0 0 0")
+=======
 		self.directoryText.setFont(font)
 		self.directoryText.setBackground(Color(0, 20, 0))
 		self.directoryText.setForeground(Color.WHITE)
+>>>>>>> 36bdbba9103cc0278bb3ccb21cc99769c666119c
 		#set up the console
 		import sys
 		sys.stdout = FakeOut(self.outText)
 		self.console = BashED_Console(stdout=sys.stdout)
-		self.directoryText.setText(self.console.get_prompt())
-		self.revalidate();
+<<<<<<< HEAD
+		self.setDirectoryText(self.console.get_prompt())
 
 
 		dirTex = self.directoryText;
+=======
+		self.directoryText.setText(self.console.get_prompt())
+		self.revalidate();
+>>>>>>> 36bdbba9103cc0278bb3ccb21cc99769c666119c
 
 		#create the listener that fires when the 'return' key is pressed
 		class InputTextActionListener(ActionListener):
@@ -100,11 +108,20 @@ class ConsolePanel(Panel):
 
 			def actionPerformed(self, e):
 				#print self.getCommandText()
+<<<<<<< HEAD
 				print(self.console.get_prompt())
 				self.console.onecmd(self.inp.getText())
 				self.parent.write_out("\n" + self.inp.getText())
 				dirTex.setText(self.console.get_prompt())
 				self.inp.setText("")
+=======
+				#self.outText.setText(self.outText.getText() + "\n" + self.inText.getText())
+				self.outText.setText(self.outText.getText() + " >> " + self.inText.getText() + "\n")
+				selfBtn.console.onecmd(self.inText.getText())
+				
+				self.setDirectoryText(selfBtn.console.get_prompt())
+				self.inText.setText("")
+>>>>>>> 36bdbba9103cc0278bb3ccb21cc99769c666119c
 
 		#create the listener that fires whenever a user hits a key
 		class InputKeyActionListener(KeyAdapter):
