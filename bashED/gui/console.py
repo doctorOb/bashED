@@ -5,6 +5,7 @@ import sys
 import subprocess
 from StringIO import StringIO
 
+
 DIR_SPECIALS = ['cd','pushd','popd']
 SHELL_START = ' $: '
 SHOW_ERROR = True
@@ -21,9 +22,9 @@ class BashED_Console(cmd.Cmd):
 
     def __init__(self,stdin=None,stdout=None):
         cmd.Cmd.__init__(self,stdin=stdin,stdout=stdout)
-        self.prompt = SHELL_START
         self.intro  = "Welcome to console!"  ## defaults to None
         self._root = os.getcwd()
+        self.prompt = self._root + SHELL_START
         self.stdout = stdout
         self._specials = {
             'cd' : self.chdir,
@@ -64,11 +65,25 @@ class BashED_Console(cmd.Cmd):
         self.prompt = os.getcwd() + SHELL_START
 
     def get_prompt(self):
-        return self.prompt.replace(self._root,'')
+        return self.prompt
 
     def get_hist(self, args):
         """return a list of commands that have been entered"""
         return self._hist
+
+    def next_hist(self):
+        try:
+            self._histidx+=1
+            return self._hist[self._histidx]
+        except:
+            return None
+
+    def last_hist(self):
+        try:
+            self._histidx-=1
+            return self._hist[self._histidx]
+        except:
+            return None
 
     def do_exit(self, args):
         """Exits from the console"""
@@ -92,7 +107,7 @@ class BashED_Console(cmd.Cmd):
         self._locals  = {}      ## Initialize execution namespace for user
         self._globals = {}
         self._dstack = [] ## stack used to hold directories for pushd and popd
-
+        self._histidx = -1
 
     def postloop(self):
         """Take care of any unfinished business.
@@ -103,15 +118,16 @@ class BashED_Console(cmd.Cmd):
 
     def precmd(self, line):
         """hook that gets called before the cmd is actually processed. Can manipulate the line as desired before passing it on"""
-        self._hist += [ line.strip() ]
+        self._hist += [line.strip()]
+        self._histidx += len(self._hist) - 1
 
-        for part in line.split(' '):
-            if len(part) < 1:
-                pass
-            path = self.closest_path(part)
-            if self._root not in os.path.abspath(part): 
-                error('cant venture out of bounds')
-                return ''
+        # for part in line.split(' '):
+        #     if len(part) < 1:
+        #         pass
+        #     path = self.closest_path(part)
+        #     if self._root not in os.path.abspath(part): 
+        #         error('cant venture out of bounds')
+        #         return ''
 
         return line
 
@@ -153,21 +169,21 @@ class BashED_Console(cmd.Cmd):
         else:
             search_dir = os.getcwd()
 
-        print search_dir
-        matches = [x for x in os.listdir(search_dir) if x.startswith(text.strip())]
+        matches = [x for x in os.listdir(search_dir) if x.startswith(text)]
 
         if len(matches) == 1: #just one, auto complete and fill in command name
-            [line.replace(text,'') + ' ' + matches[0]]
+            return [line.replace(text,'') + ' ' + matches[0]]
         else:
+            print matches
             return matches
 
     def tabcomplete(self,line):
         try:
-            last = line.rstrip()[line.rindex(' '):]
+            last = line.split(' ')
+            last = last[len(last) - 1]
         except:
             last = line
 
-        print('complete text',last)
         return self.completedefault(last,line,0,0)
 
 
