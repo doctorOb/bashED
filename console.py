@@ -6,21 +6,7 @@ DIR_SPECIALS = ['cd','pushd','popd']
 SHELL_START = ' $: '
 SHOW_ERROR = False
 
-def get_command(line):
-    """get the command (arg[0]) from a input line, and return it"""
-    if ' ' in line:
-        return line[0:line.index(' ')]
-    else:
-        return line
 
-def get_path(line):
-    """given a line (assumed to contain a cd command) return the path argument given."""
-    try:
-        path = line[line.index(' ')+1:]
-    except:
-        path = line
-
-    return path
 
 def error(msg):
     """if verbosity is turned on, log the error to the console, else do nothing"""
@@ -35,21 +21,39 @@ class BashED_Console(cmd.Cmd):
         cmd.Cmd.__init__(self)
         self.prompt = os.getcwd() + SHELL_START
         self.intro  = "Welcome to console!"  ## defaults to None
+        self._root = os.getcwd()
+        self._specials = {
+            'cd' : self.chdir,
+            'pushd' : self.pushd,
+            'popd' : self.popd
+        }
+
+    def get_command(self,line):
+        """get the command (arg[0]) from a input line, and return it"""
+        if ' ' in line:
+            return line[0:line.index(' ')]
+        else:
+            return line
+
+    def get_path(self,line):
+        """given a line (assumed to contain a cd command) return the path argument given."""
+        try:
+            path = line[line.index(' ')+1:]
+        except:
+            path = line
+
+        return path
 
     def update_prompt(self):
         self.prompt = os.getcwd() + SHELL_START
 
-    def do_hist(self, args):
-        """Print a list of commands that have been entered"""
-        print self._hist
+    def get_hist(self, args):
+        """return a list of commands that have been entered"""
+        return self._hist
 
     def do_exit(self, args):
         """Exits from the console"""
         return -1
-
-    def do_EOF(self, args):
-        """Exit on system end of file character"""
-        return self.do_exit(args)
 
     def do_shell(self, args):
         """Pass command to a system shell when line begins with '!'"""
@@ -58,8 +62,8 @@ class BashED_Console(cmd.Cmd):
     def completedefault(self, text, line, start_index, end_index):
         """auto complete as the shell would (for file names in current directory)"""
 
-        if get_command(line) in self._specials.keys():
-            path = get_path(line)
+        if self.get_command(line) in self._specials.keys():
+            path = self.get_path(line)
             try:
                 os.listdir(path)
                 search_dir = path
@@ -72,25 +76,15 @@ class BashED_Console(cmd.Cmd):
 
         return [x for x in os.listdir(search_dir) if x.startswith(text)]
 
-    def do_help(self, args):
-        ## The only reason to define this method is for the help text in the doc string
-        cmd.Cmd.do_help(self, args)
-
     ## Override methods in Cmd object ##
     def preloop(self):
-        """Initialization before prompting user for commands.
-           Despite the claims in the Cmd documentaion, Cmd.preloop() is not a stub.
-        """
+        """hook called before loop begins. Sets up buffers and hash maps to hold stuff needed to be persistent"""
         cmd.Cmd.preloop(self)   ## sets up command completion
         self._hist    = []      ## No history yet
         self._locals  = {}      ## Initialize execution namespace for user
         self._globals = {}
         self._dstack = [] ## stack used to hold directories for pushd and popd
-        self._specials = {
-            'cd' : self.chdir,
-            'pushd' : self.pushd,
-            'popd' : self.popd
-        }
+
 
     def postloop(self):
         """Take care of any unfinished business.
@@ -100,11 +94,10 @@ class BashED_Console(cmd.Cmd):
         print "Exiting..."
 
     def precmd(self, line):
-        """ This method is called after the line has been input but before
-            it has been interpreted. If you want to modifdy the input line
-            before execution (for example, variable substitution) do it here.
-        """
+        """hook that gets called before the cmd is actually processed. Can manipulate the line as desired before passing it on"""
         self._hist += [ line.strip() ]
+
+
         return line
 
     def postcmd(self, stop, line):
@@ -118,7 +111,7 @@ class BashED_Console(cmd.Cmd):
 
     def chdir(self,line):
         """interpret the input line as a cd command, and perform the neccessary directory walking actions"""
-        path = get_path(line)
+        path = self.get_path(line)
         try:
             os.chdir(path)
             self.update_prompt()
@@ -139,7 +132,7 @@ class BashED_Console(cmd.Cmd):
     def default(self, line):       
         """called when the command is not recognized as one of those defined above. 
         self.do_shell(line)"""
-        shell_cmd = get_command(line)
+        shell_cmd = self.get_command(line)
         if shell_cmd in self._specials.keys():
             self._specials[shell_cmd](line)
         else:
