@@ -13,6 +13,7 @@ DIR_SPECIALS = ['cd','pushd','popd']
 SHELL_START = ' $: '
 SHOW_ERROR = True
 BASHED = os.getcwd() + '/' + 'bashed_run.py'
+DELIM = '[]'
 
 
 def error(msg):
@@ -110,23 +111,36 @@ class BashED_Console(cmd.Cmd):
         proc = subprocess.Popen(raw,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True)
         out,err = proc.communicate()
         print out,err
+
+
   
 
     def do_play(self,args):
         """calls the play script from the head game file"""
         #bashed_run.play()
+        proc = subprocess.Popen(BASHED + ' --play',stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True)
+        out,err = proc.communicate()
+        dialog = ''
+        response = []
+        print(out,err)
+        for line in out:
+            if '-------' in line:
+                response.append(dialog)
+                dialog = ''
+            else:
+                dialog+=line
+        return response
 
-        self.do_shell([BASHED,' --play'])
 
     def do_reset(self,args):
         """resets the game state"""
-        self.do_shell([BASHED,' --reset'])
-        #bashed_run.reset()
+        proc = subprocess.Popen(BASHED + ' --reset',stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True)
+        out,err = proc.communicate()
 
     def do_hint(self,args):
         """gives a scenario specific hint to the user"""
-        #bashed_run.hint()
-        self.do_shell([BASHED,' --hint'])
+        proc = subprocess.Popen(BASHED + ' --hint',stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True)
+        out,err = proc.communicate()
 
 
 

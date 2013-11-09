@@ -18,8 +18,9 @@ class ButtonPanel(Panel):
 	resetButton = None
 	exitButton = None
 
-	def __init__(self, inconsolePanel):
+	def __init__(self, inconsolePanel,dialogPanel):
 		self.consolePanel = inconsolePanel
+		self.dialogPanel = dialogPanel
 		Panel.__init__(self, "gap 1px 1px, insets 0 0 0 0, flowy")
 
 	def initUI(self):
@@ -79,17 +80,17 @@ class ButtonPanel(Panel):
 
 		class PlayButtonActionListener(ActionListener):
 			def actionPerformed(button, e):
-				self.consolePanel.console.do_play('')
+				self.dialogPanel.speak(self.consolePanel.console.do_play(''))
 		self.playButton.addActionListener(PlayButtonActionListener())
 
 		class HelpBUttonActionListener(ActionListener):
 			def actionPerformed(button, e):
-				self.consolePanel.console.do_hint('')
+				self.dialogPanel.speak(self.consolePanel.console.do_hint(''))
 		self.helpButton.addActionListener(HelpBUttonActionListener())
 
 		class ResetButtonActionListener(ActionListener):
 			def actionPerformed(button, e):
-				self.consolePanel.console.do_reset('')
+				self.dialogPanel.speak(self.consolePanel.console.do_reset(''))
 		self.resetButton.addActionListener(ResetButtonActionListener())
 
 		class ExitButtonActionListener(ActionListener):

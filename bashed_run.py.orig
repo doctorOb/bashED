@@ -28,8 +28,12 @@ def play():
     tup = load_state()
     scenario = tup[0]
     state = tup[1]
+<<<<<<< HEAD
+    if not scenario.validate():
+=======
     mission = tup[2]
     if scenario.validate():
+>>>>>>> 57b4728b0e54628ecc9956e9097436b0a3f8e4a5
         scenario.print_correct()
         next_scenario_str = get_next_scenario_str(state['mission'], state['scenario'])
         print "next scenario is %s" % next_scenario_str
