@@ -58,7 +58,7 @@ class DialogPanel(Panel):
 		self.dialogText.setForeground(Color.WHITE)
 		self.dialogText.setFont(Font("Arial", Font.BOLD, 15))
 
-		self.buttonsPanel = ButtonPanel(self.consolePanel)
+		self.buttonsPanel = ButtonPanel(self.consolePanel,self)
 
 
 		self.dialogText.setText("Welcome to BashED!!!")
