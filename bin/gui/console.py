@@ -1,6 +1,5 @@
 import os
 import cmd
-import readline
 import sys
 import subprocess
 
@@ -113,15 +112,16 @@ class BashED_Console(cmd.Cmd):
 
     def do_play(self,args):
         """calls the play script from the head game file"""
-        return bashED.play()
+        print('called')
+        bashed_run.play()
 
     def do_reset(self,args):
         """resets the game state"""
-        return bashED.reset()
+        bashed_run.reset()
 
     def do_hint(self,args):
         """gives a scenario specific hint to the user"""
-        return bashED.hint()
+        bashed_run.hint()
 
 
 
