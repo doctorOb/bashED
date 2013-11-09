@@ -20,6 +20,17 @@ from javax.swing import JLabel
 from javax.swing import JTextPane
 from javax.swing import JTextField
 
+from console import *
+import sys
+
+class FakeOut():
+	def __init__(self,outText):
+		self.outText = outText
+
+	def write(self,text):
+		#dont print in here
+		self.outText.setText(self.outText.getText() + text)
+
 class ConsolePanel(Panel):
 	
 	title = None
@@ -30,6 +41,7 @@ class ConsolePanel(Panel):
 
 	def __init__(self):
 		Panel.__init__(self)
+		self.console = None
 		
 
 
@@ -47,20 +59,29 @@ class ConsolePanel(Panel):
 		self.inText.setFocusTraversalKeysEnabled(False)
 
 		self.inText.setText("")
-		
+		self.new_out = FakeOut(self.outText)
+		import sys
+		sys.stdout = self.new_out
+		self.console = BashED_Console(stdin=None,stdout=self.new_out)
+
 		inT = self.inText
 		outT = self.outText
 		class InputTextActionListener(ActionListener):
-			def actionPerformed(self, e):
-				print inT.getText()
-				outT.setText(outT.getText() + "\n" + inT.getText())
-				inT.setText("")
-		class InputKeyActionListener(KeyAdapter):
-			def keyReleased(self, k):
-				print str(k.getKeyCode()) + ":\t" + k.getKeyChar()
 
-		self.inText.addActionListener(InputTextActionListener())
-		self.inText.addKeyListener(InputKeyActionListener())
+			def __init__(self,console):
+				self.console = console
+			def actionPerformed(self, e):
+				outT.setText(outT.getText() + "\n" + inT.getText())
+				self.console.onecmd(inT.getText())
+				inT.setText(self.console.prompt)
+		class InputKeyActionListener(KeyAdapter):
+			def __init__(self,console):
+				self.console = console
+			def keyReleased(self, k):
+				if k.getKeyCode() == 9: #tab character
+					inT.setText(self.console.tabcomplete(self,inT.getText()))
+		self.inText.addActionListener(InputTextActionListener(self.console))
+		self.inText.addKeyListener(InputKeyActionListener(self.console))
 
 
 	def addUI(self):
