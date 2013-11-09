@@ -21,6 +21,7 @@ from javax.swing import JPanel
 from javax.swing import JTextPane
 from javax.swing import JTextField
 
+
 from console import *
 import sys
 
@@ -61,8 +62,8 @@ class ConsolePanel(Panel):
 		self.directoryText = JTextField()
 		self.directoryText.setEditable(False)
 		import sys
-		sys.stdout = FakeOut(self.outText)
-		self.console = BashED_Console(stdout=sys.stdout)
+		sys.stdout = 
+		self.console = BashED_Console()
 		self.directoryText.setText(self.console.prompt)
 
 		#create the listener that fires when the 'return' key is pressed

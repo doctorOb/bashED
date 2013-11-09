@@ -15,6 +15,9 @@ from javax.swing import BorderFactory
 from javax.swing.border import Border
 from javax.swing import UIManager
 from javax.swing import ImageIcon
+from javax.swing import JLayeredPane
+from javax.swing import JLabel
+from javax.swing import JDesktopPane
 #from console import BashED_Console
 
 #props = System.getProperties()
@@ -39,10 +42,28 @@ class Window(JFrame):
         self.setBackground(Color(0,128,0, 198))
 
 
+        #j = JDesktopPane()
+        #j.setOpaque(False)
+        self.setLayout(None)
+
         self.setIconImage(ImageIcon("icon.png").getImage())
+
+
+
 
         mp = MainPanel()
         self.add(mp)
+        mp.setBounds(0, 0, size.width, size.height)
+
+
+        imageTest = ImageIcon("image.png")
+        imageTestLabel = JLabel(imageTest)
+        self.add(imageTestLabel)
+        imageTestLabel.setBounds(0, 0, size.width, size.height)
+        #self.getContentPane().add(mp)
+
+        #self.getContentPane().add(JLabel("Iglo"))
+
         bb = BorderFactory.createLineBorder(Color.BLACK, 5)
         bw1 = BorderFactory.createLineBorder(Color.WHITE, 1)
         bw2 = BorderFactory.createLineBorder(Color.WHITE, 1)
