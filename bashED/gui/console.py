@@ -3,8 +3,9 @@ import cmd
 import readline
 import sys
 import subprocess
-from StringIO import StringIO
+sys.path.append('../../bashED.py')
 
+import bashED
 
 DIR_SPECIALS = ['cd','pushd','popd']
 SHELL_START = ' $: '
@@ -23,7 +24,7 @@ class BashED_Console(cmd.Cmd):
     def __init__(self,stdin=None,stdout=None):
         cmd.Cmd.__init__(self,stdin=stdin,stdout=stdout)
         self.intro  = "Welcome to console!"  ## defaults to None
-        self._root = os.getcwd()
+        self._root = os.path.abspath('../../../')
         self.prompt = self._root + SHELL_START
         self.stdout = stdout
         self._specials = {
@@ -65,7 +66,8 @@ class BashED_Console(cmd.Cmd):
         self.prompt = os.getcwd() + SHELL_START
 
     def get_prompt(self):
-        return self.prompt
+        self.update_prompt()
+        return self.prompt.replace(self._root,'')
 
     def get_hist(self, args):
         """return a list of commands that have been entered"""
@@ -76,14 +78,16 @@ class BashED_Console(cmd.Cmd):
             self._histidx+=1
             return self._hist[self._histidx]
         except:
-            return None
+            self._histidx-=1
+            return self._hist[self._histidx]
 
     def last_hist(self):
         try:
             self._histidx-=1
             return self._hist[self._histidx]
         except:
-            return None
+            self._histidx+=1
+            return self._hist[self._histidx+1]
 
     def do_exit(self, args):
         """Exits from the console"""
@@ -97,6 +101,19 @@ class BashED_Console(cmd.Cmd):
         proc = subprocess.Popen(raw,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True)
         out,err = proc.communicate()
         print out,err
+
+    def do_play(self,args):
+        """calls the play script from the head game file"""
+        return bashED.play()
+
+    def do_reset(self,args):
+        """resets the game state"""
+        return bashED.reset()
+
+    def do_hint(self,args):
+        """gives a scenario specific hint to the user"""
+        return bashED.hint()
+
 
 
     ## Override methods in Cmd object ##
@@ -119,7 +136,7 @@ class BashED_Console(cmd.Cmd):
     def precmd(self, line):
         """hook that gets called before the cmd is actually processed. Can manipulate the line as desired before passing it on"""
         self._hist += [line.strip()]
-        self._histidx += len(self._hist) - 1
+        self._histidx = len(self._hist) - 1
 
         # for part in line.split(' '):
         #     if len(part) < 1:
@@ -130,12 +147,6 @@ class BashED_Console(cmd.Cmd):
         #         return ''
 
         return line
-
-    def postcmd(self, stop, line):
-        """If you want to stop the console, return something that evaluates to true.
-           If you want to do some post command processing, do it here.
-        """
-        return stop
 
     def emptyline(self):    
         pass #default is to reenter most recent command. This overrides it.
@@ -173,22 +184,10 @@ class BashED_Console(cmd.Cmd):
 
         if len(matches) == 1: #just one, auto complete and fill in command name
             return [line.replace(text,'') + matches[0]]
+        elif len(matches) > 1:
+            return matches
         else:
-            i = 0
-            tester = matches[0] #any arbitrary one will do, we're looking for the first inconsistency
-            while True:
-                try:
-                    candidate = tester[i]
-                except:
-                    break
-                for match in matches:
-                    if match[i] != candidate:
-                        stop = True
-                        break
-                if stop:
-                    break
-                i+=1
-            return [tester[0:i]]
+            return []
 
     def tabcomplete(self,line):
         try:
