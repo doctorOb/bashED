@@ -1,0 +1,5 @@
+<<<<<<< HEAD
+{'initialized': False, 'mission': 'mission_two', 'scenario': 'ls_find_file'}
+=======
+{'initialized': False, 'mission': 'mission_two', 'scenario': 'ls_find_file'}
+>>>>>>> 8bbd8c3113f1a59ba835b62b16cc4903f1b42237

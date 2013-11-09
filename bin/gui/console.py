@@ -121,15 +121,14 @@ class BashED_Console(cmd.Cmd):
         proc = subprocess.Popen(BASHED + ' --play',stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True)
         out,err = proc.communicate()
         dialog = ''
-        response = []
-        print(out,err)
-        for line in out:
-            if '-------' in line:
-                response.append(dialog)
-                dialog = ''
-            else:
-                dialog+=line
-        return response
+        if err:
+            print err
+            return "Aye! looks like you got a shell error there!"
+
+        dialog = dialog.replace('stdout repmapped\n','')
+        dialog = dialog.replace('\\','')
+
+        return dialog
 
 
     def do_reset(self,args):
