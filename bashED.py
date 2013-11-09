@@ -16,6 +16,7 @@ def play():
     if scenario.validate():
         scenario.print_correct()
         next_scenario_str = get_next_scenario_str(state['mission'], state['scenario'])
+        print "next scenario is %s" % next_scenario_str
         if not next_scenario_str:
             #need to go to the next mission
             next_mission_str = get_next_mission_str(state['mission'])
@@ -75,8 +76,8 @@ def load_state():
             mstr = get_first_mission_str()
             mission = get_first_mission()
             state['mission'] = mstr
-            sstr = get_first_scenario_str()
-            scenario = get_first_scenario()
+            sstr = get_first_scenario_str(mstr)
+            scenario = get_first_scenario(mstr)
             state['scenario'] = sstr
             state['initialized'] = True
 
