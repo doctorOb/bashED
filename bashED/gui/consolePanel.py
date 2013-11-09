@@ -22,6 +22,7 @@ from javax.swing import JPanel
 from javax.swing import JTextPane
 from javax.swing import JTextField
 
+
 from console import *
 import sys
 
@@ -44,7 +45,7 @@ class ConsolePanel(Panel):
 	directoryText = None
 
 	def __init__(self):
-		Panel.__init__(self)
+		Panel.__init__(self, "insets 0 0 0 0")
 		self.console = None
 		
 
@@ -53,13 +54,25 @@ class ConsolePanel(Panel):
 
 		font = Font("Courier", Font.BOLD, 14)
 
+
+
+
 		#create the output text panel
 		self.outText = JTextPane()
 		self.outText.setEditable(False)
 		self.outText.setFont(font)
 		self.outTextScroller = JScrollPane(self.outText)
-		self.outText.setBackground(Color(0, 20, 0))
+		#self.outText.setOpaque(False)
+		self.outText.setBackground(Color(0, 20, 0, 220))
 		self.outText.setForeground(Color.WHITE)
+
+		#self.outTextScroller.setOpaque(False)
+		self.outTextScroller.setBackground(Color(0, 20, 0, 200))
+
+		#self.outText.repaint()
+
+		#self.layered = JLayeredPane()
+		#self.layered.setLayer(self.outTextScroller, 0)
 
 		#create the input text box
 		self.inText = JTextField()
@@ -114,6 +127,7 @@ class ConsolePanel(Panel):
 
 
 	def addUI(self):
+		
 		self.add(self.outTextScroller, "cell 0 0, push, grow")
 		self.add(self.nestedInputPanel, "cell 0 1, pushx, growx")
 		self.nestedInputPanel.add(self.directoryText, "cell 0 0")
