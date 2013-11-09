@@ -39,13 +39,22 @@ class FakeOut():
 class ConsolePanel(Panel):
 
 	def __init__(self):
-		Panel.__init__(self, "insets 0 0 0 0")
+		
 		self.console = None
 		self.outText = None
 		self.inText = None
 		self.outTextScroller = None
 		self.nestedInputPanel = None
 		self.directoryText = None
+		Panel.__init__(self, "insets 0 0 0 0")
+
+	def sendCommand(self, command):
+		print str(self)
+		oldText = self.inText.getText()
+		self.inText.setText(command)
+
+		self.inText.getActionListeners()[0].actionPerformed(None)
+		self.inText.setText(oldText)
 
 	def setDirectoryText(self, dirText):
 		self.directoryText.setText(dirText)
@@ -58,12 +67,19 @@ class ConsolePanel(Panel):
 
 	def initUI(self):
 
-		font = Font("Courier", Font.BOLD, 14)
+		font = Font("Courier New", Font.BOLD, 14)
 
 		#create the output text panel
 		self.outText = JTextPane()
 		self.outText.setEditable(False)
 		self.outText.setFont(font)
+		class NoGhostScroller(JScrollPane):
+			def paintComponent(self, g):
+				
+				g.setColor(self.getBackground())
+				g.fillRect(0, 0, self.getWidth(), self.getHeight())
+				#super(NoGhostScroller, self).paintComponent(g)
+
 		self.outTextScroller = JScrollPane(self.outText)
 		#self.outText.setOpaque(False)
 		self.outText.setBackground(Color(0, 20, 0, 220))
