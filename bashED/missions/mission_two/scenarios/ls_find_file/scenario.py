@@ -3,7 +3,7 @@ import base_scenario
 
 from verification_helpers import prompt, SCENARIO_DIR
 
-class Scenario(base_scenario.Scenario):
+class LsScenario(base_scenario.Scenario):
 
     def __init__(self):
         self.scenario_description = ("You're a secret agent and you need to get into "
@@ -18,3 +18,7 @@ class Scenario(base_scenario.Scenario):
 
     def validate(self):
         return prompt("Enter the name of the secret file", "passwords.txt")
+
+if __name__ == '__main__':
+    ls = LsScenario()
+    ls.recover()
