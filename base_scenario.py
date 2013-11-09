@@ -13,12 +13,10 @@ class Scenario():
     def setup(self):
         self.src = os.path.join(self.dir, "setup")
         self.dest = os.path.join(self.dir, "..", "..", "..", "..", "sandbox")
-        self.chkpoint = os.path.join(self.dir, "..", "..", "..", "..", "checkpoint")
         if os.path.isdir(self.dest):
             shutil.rmtree(self.dest)
-        if not os.path.isdir(self.chkpoint):
-            shutil.copytree(self.src, self.chkpoint)
         shutil.copytree(self.src, self.dest)
+        self.checkpoint()
 
     def checkpoint(self):
         self.src = os.path.join(self.dir, "..", "..", "..", "..", "sandbox")
