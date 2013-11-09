@@ -14,6 +14,9 @@ from java.awt.event import KeyListener
 from java.awt.event import ActionEvent
 from java.awt.event import KeyEvent
 from java.awt.event import KeyAdapter
+from java.awt.event import FocusListener
+from java.awt.event import FocusAdapter
+from java.awt.event import FocusEvent
 
 from net.miginfocom.swing import MigLayout
 from panel import Panel
@@ -22,7 +25,7 @@ from javax.swing import JLabel
 from javax.swing import JPanel
 from javax.swing import JTextPane
 from javax.swing import JTextField
-
+from javax.swing.text import Caret
 import threading
 import time
 
@@ -105,16 +108,14 @@ class ConsolePanel(Panel):
 		self.inText.setFont(font)
 		self.inText.setBackground(Color(0, 20, 0))
 		self.inText.setForeground(Color.WHITE)
-
-		class Cursor(threading.Thread):
-			def __init__(thrd):
-				threading.Thread.__init__(thrd)
-				thrd.state = True
-			def run(thrd):
-				thrd.state = !thrd.state
-				time.sleep(.2)
-
-		Cursor().start()
+		self.inText.getCaret().setVisible(True)
+		self.inText.getCaret().setBlinkRate(500)
+		self.inText.setCaretColor(Color(200,255,200))
+		
+		class InFocusAdapter(FocusAdapter):
+			def focusLost(adap, e):
+				self.inText.setVisible(True)
+		self.inText.addFocusListener(InFocusAdapter())
 
 		self.nestedInputPanel = Panel("Insets 0 0 0 0")
 
@@ -148,6 +149,7 @@ class ConsolePanel(Panel):
 				# self.parent.write_out("\n" + self.inp.getText())
 				# dirTex.setText(self.console.get_prompt())
 				# self.inp.setText("")
+
 				self.parent.write_out(self.console.get_prompt() + self.inp.getText() + '\n')
 				if 'clear' in self.inp.getText().split(' ')[0]:
 					self.out.setText("") #clear the screen
