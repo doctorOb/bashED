@@ -7,7 +7,7 @@ from java.awt.event import ActionListener
 from java.awt.event import ActionEvent
 from java.awt.event import MouseEvent
 from java.awt.event import MouseAdapter
-import bashed_run
+#import bashed_run
 from panel import Panel
 
 

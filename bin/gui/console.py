@@ -6,7 +6,7 @@ import subprocess
 sys.path.append(os.path.abspath('../../'))
 print sys.path
 
-import bashed_run
+#import bashed_run
 
 
 DIR_SPECIALS = ['cd','pushd','popd']
