@@ -2,16 +2,43 @@ import os
 import cmd
 import readline
 
-CHDIR = 'cd'
+DIR_SPECIALS = ['cd','pushd','popd']
+SHELL_START = ' $: '
+SHOW_ERROR = False
+
+def get_command(line):
+    """get the command (arg[0]) from a input line, and return it"""
+    if ' ' in line:
+        return line[0:line.index(' ')]
+    else:
+        return line
+
+def get_path(line):
+    """given a line (assumed to contain a cd command) return the path argument given."""
+    try:
+        path = line[line.index(' ')+1:]
+    except:
+        path = line
+
+    return path
+
+def error(msg):
+    """if verbosity is turned on, log the error to the console, else do nothing"""
+    if SHOW_ERROR:
+        print(msg)
+
+
 
 class BashED_Console(cmd.Cmd):
 
     def __init__(self):
         cmd.Cmd.__init__(self)
-        self.prompt = os.getcwd() + ' $ '
+        self.prompt = os.getcwd() + SHELL_START
         self.intro  = "Welcome to console!"  ## defaults to None
 
-    ## Command definitions ##
+    def update_prompt(self):
+        self.prompt = os.getcwd() + SHELL_START
+
     def do_hist(self, args):
         """Print a list of commands that have been entered"""
         print self._hist
@@ -20,7 +47,6 @@ class BashED_Console(cmd.Cmd):
         """Exits from the console"""
         return -1
 
-    ## Command definitions to support Cmd object functionality ##
     def do_EOF(self, args):
         """Exit on system end of file character"""
         return self.do_exit(args)
@@ -31,13 +57,22 @@ class BashED_Console(cmd.Cmd):
 
     def completedefault(self, text, line, start_index, end_index):
         """auto complete as the shell would (for file names in current directory)"""
-        pass
+
+        if get_command(line) in self._specials.keys():
+            path = get_path(line)
+            try:
+                os.listdir(path)
+                search_dir = path
+            except:
+                search_dir = path[0:path.rindex('/')] if '/' in path else path
+
+            text = text[text.rindex('/'):] if '/' in text else text
+        else:
+            search_dir = os.getcwd()
+
+        return [x for x in os.listdir(search_dir) if x.startswith(text)]
 
     def do_help(self, args):
-        """Get help on commands
-           'help' or '?' with no arguments prints a list of commands for which help is available
-           'help <command>' or '? <command>' gives help on <command>
-        """
         ## The only reason to define this method is for the help text in the doc string
         cmd.Cmd.do_help(self, args)
 
@@ -50,6 +85,12 @@ class BashED_Console(cmd.Cmd):
         self._hist    = []      ## No history yet
         self._locals  = {}      ## Initialize execution namespace for user
         self._globals = {}
+        self._dstack = [] ## stack used to hold directories for pushd and popd
+        self._specials = {
+            'cd' : self.chdir,
+            'pushd' : self.pushd,
+            'popd' : self.popd
+        }
 
     def postloop(self):
         """Take care of any unfinished business.
@@ -75,18 +116,32 @@ class BashED_Console(cmd.Cmd):
     def emptyline(self):    
         pass
 
+    def chdir(self,line):
+        """interpret the input line as a cd command, and perform the neccessary directory walking actions"""
+        path = get_path(line)
+        try:
+            os.chdir(path)
+            self.update_prompt()
+        except:
+            error('cd error') 
+    def pushd(self,line):
+        """interpret the input line as the pushd command. Move the user to the directory, and push the previous one onto the dstack."""
+        self._dstack.insert(0,os.getcwd())
+        self.chdir(line)
+
+    def popd(self,line):
+        try:
+            d = self._dstack.pop()
+            self.chdir(d)
+        except:
+            error('popd error')
+
     def default(self, line):       
         """called when the command is not recognized as one of those defined above. 
         self.do_shell(line)"""
-        shell_cmd = line[0:line.index(' ')] if ' ' in line else line
-        if CHDIR in shell_cmd:
-            path = line[len(shell_cmd)+1:]
-            print path
-            try:
-                os.chdir(path)
-                self.prompt = os.getcwd() + ' $ '
-            except:
-                print('cd error')
+        shell_cmd = get_command(line)
+        if shell_cmd in self._specials.keys():
+            self._specials[shell_cmd](line)
         else:
             self.do_shell(line)
 
