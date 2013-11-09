@@ -36,6 +36,7 @@ class DialogPanel(Panel):
 				for i in range(0, len(text)):
 					if text[i] == '-':
 						time.sleep(.05)
+						pass
 					self.dialogText.setText(self.dialogText.getText() + text[i])
 					time.sleep(.1)
 				self.manLabel.setIcon(self.manImageSilent)
