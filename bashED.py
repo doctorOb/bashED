@@ -27,7 +27,7 @@ def play():
                 next_mission.setup()
                 next_mission.print_prompt()
                 state['mission'] = next_mission_str
-                next_scenario_str = get_first_scenario_str((state['mission'])
+                next_scenario_str = get_first_scenario_str((state['mission']))
                 next_scenario = get_scenario_by_str(next_mission_str, next_scenario_str)
                 next_scenario.setup()
                 next_scenario.print_prompt()
