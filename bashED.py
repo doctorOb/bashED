@@ -1,6 +1,13 @@
+#!/usr/bin/env python
+
 import argparse
 import os
 import json
+import sys
+
+sys.path.append(os.path.abspath('bin'))
+sys.path.append(os.path.abspath('gui'))
+sys.path.append(os.path.abspath('.'))
 
 from mission_scenario_manager import get_first_mission_str, get_first_mission, get_scenario_by_str, get_first_scenario_str, get_first_scenario, get_next_scenario_str, get_next_mission_str, get_next_mission
 
@@ -27,6 +34,7 @@ def play():
                 exit(0)
             else:
                 next_mission = get_next_mission(state['mission'])
+                next_mission.clean_dirs()
                 next_mission.print_prompt()
                 state['mission'] = next_mission_str
                 next_scenario_str = get_first_scenario_str((state['mission']))
@@ -82,6 +90,7 @@ def load_state():
             state['scenario'] = sstr
             state['initialized'] = True
 
+            mission.clean_dirs()
             mission.print_prompt()
             scenario.setup()
             scenario.print_prompt()
@@ -113,6 +122,8 @@ if __name__ == '__main__':
         hint()
     elif args.reset:
         reset()
+    else: #start with a GUI
+        os.system('jython -Dpython.path=' + os.path.abspath('bin/gui/mig.jar') + ' ' + os.path.abspath('bin/gui/window.py'))
 
 
     #need to store the current state somewhere.

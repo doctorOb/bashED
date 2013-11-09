@@ -24,9 +24,7 @@ while True:
 		if match[i] != candidate:
 			stop = True
 			break
-	i+=1
 	if stop:
 		break
-		print(matches[0][0:i-1])
-
+	i+=1
 
