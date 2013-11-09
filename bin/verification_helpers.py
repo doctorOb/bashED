@@ -33,6 +33,7 @@ def prompt(message, goal):
 
 
 if __name__ == '__main__':
+    #testing stuff, just for the HACKATHON
     print dir_exists("durr")
     print file_exists("test_file.txt")
     print file_matches("test_file.txt", "test_file.txt", "test_scenario")

@@ -10,8 +10,6 @@ SCENARIO_FILE = "scenario_order.txt"
 """OMG please refactor this to not have such repetative code, plz plzpl z"""
 
 def get_scenario_by_str(mission_str, scenario_str):
-    print  os.path.join(MISSION_DIR, mission_str, 'scenarios', scenario_str, "scenario.py")
-
     module = imp.load_source('Scenario', os.path.join(MISSION_DIR, mission_str, 'scenarios', scenario_str, "scenario.py"))
     return module.Scenario()
 
@@ -92,6 +90,7 @@ def get_next_scenario(curr_mission, prev_scenario):
     return module.Scenario()
 
 if __name__ == '__main__':
+    #this is just testing stuff, because screw testing frameworks like py.test....... this is a HACKATHON!!
     print "--"+get_first_mission_str()+"--"
     print "--"+get_first_scenario_str(get_first_mission_str())+"--"
     print "--"+get_next_scenario_str("mission_one", "ls_find_file")+"--"
