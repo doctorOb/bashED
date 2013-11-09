@@ -1,8 +1,8 @@
 import os.path
 import filecmp
 
-SANDBOX_DIR = os.path.join("bashED", "sandbox")
-SCENARIO_DIR = os.path.join("bashED", "scenarios")
+SANDBOX_DIR = os.path.join("..", "bashED", "sandbox")
+SCENARIO_DIR = os.path.join("..", "bashED", "scenarios")
 
 
 def dir_exists(path):

@@ -1,4 +1,5 @@
 
+
 class Mission():
 	
 	def __init__(self):
@@ -10,3 +11,5 @@ class Mission():
 
 	def print_correct():
 		print self.win_message
+
+	#iterate through missions here as well
