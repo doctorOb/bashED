@@ -2,7 +2,7 @@ import argparse
 import os
 import json
 
-from mission_scenario_manager import get_first_mission_str, get_first_mission, get_scenario_by_str, get_first_scenario_str, get_first_scenario, get_next_scenario_str, get_next_mission_str
+from mission_scenario_manager import get_first_mission_str, get_first_mission, get_scenario_by_str, get_first_scenario_str, get_first_scenario, get_next_scenario_str, get_next_mission_str, get_next_mission
 
 
 STATE_FILE = os.path.join("bashED", "state.json")
@@ -22,6 +22,8 @@ def play():
             next_mission_str = get_next_mission_str(state['mission'])
             if not next_mission_str:
                 print "GAME OVER!! IN THAT YOU WIN!! YOU BEAT ALL THE MISSIONS!!! WORLD SAVED!!!!!!!!!!!!!!!!!!!!!!!!"
+                state['initialized'] = False
+                write_state(state)
                 exit(0)
             else:
                 next_mission = get_next_mission(state['mission'])

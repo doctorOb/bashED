@@ -23,12 +23,8 @@ def file_matches(attempt, goal):
     Returns:
         True if the goal matches the attempt(and both exist), else False.
     """
-    print goal
-    print os.path.join(SANDBOX_DIR, attempt)
     if os.path.isfile(goal) and os.path.isfile(os.path.join(SANDBOX_DIR, attempt)):
-        print 'turns out that they do exist'
         return filecmp.cmp(goal, os.path.join(SANDBOX_DIR, attempt))
-    print 'they dont exist'
     return False
 
 
