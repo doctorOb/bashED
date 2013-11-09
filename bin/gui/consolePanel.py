@@ -23,6 +23,9 @@ from javax.swing import JPanel
 from javax.swing import JTextPane
 from javax.swing import JTextField
 
+import threading
+import time
+
 import sys
 
 from console import *
@@ -102,6 +105,16 @@ class ConsolePanel(Panel):
 		self.inText.setFont(font)
 		self.inText.setBackground(Color(0, 20, 0))
 		self.inText.setForeground(Color.WHITE)
+
+		class Cursor(thread.Thread):
+			def __init__(thrd):
+				threading.Thread.__init__(thrd)
+				thrd.state = True
+			def run(thrd):
+				thrd.state = !thrd.state
+				time.sleep(.2)
+
+		Cursor().start()
 
 		self.nestedInputPanel = Panel("Insets 0 0 0 0")
 
