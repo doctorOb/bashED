@@ -15,6 +15,8 @@ class Scenario(base_scenario.Scenario):
         self.hint = "type `ls` and see which file might contain the passwords, then type `bashed play` to continue"
         self.path = os.path.join(SCENARIO_DIR, "ls_find_file")
         self.win_message = "Great job! You found the file!"
+        self.dir = os.path.dirname(os.path.realpath(__file__))
+
 
     def validate(self):
         return prompt("Enter the name of the secret file", "passwords.txt")
