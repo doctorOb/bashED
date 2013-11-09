@@ -12,6 +12,7 @@ import bashed_run
 DIR_SPECIALS = ['cd','pushd','popd']
 SHELL_START = ' $: '
 SHOW_ERROR = True
+BASHED = os.getcwd() + '/' + 'bashed_run.py'
 
 
 def error(msg):
@@ -109,19 +110,23 @@ class BashED_Console(cmd.Cmd):
         proc = subprocess.Popen(raw,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True)
         out,err = proc.communicate()
         print out,err
+  
 
     def do_play(self,args):
         """calls the play script from the head game file"""
-        print('called')
-        bashed_run.play()
+        #bashed_run.play()
+
+        self.do_no_shell([BASHED,' --play'])
 
     def do_reset(self,args):
         """resets the game state"""
-        bashed_run.reset()
+        self.do_no_shell([BASHED,' --reset'])
+        #bashed_run.reset()
 
     def do_hint(self,args):
         """gives a scenario specific hint to the user"""
-        bashed_run.hint()
+        #bashed_run.hint()
+        self.do_no_shell([BASHED,' --hint'])
 
 
 
