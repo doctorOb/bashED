@@ -1,11 +1,14 @@
+
+
 from javax.swing import JTextPane
 from javax.swing import JScrollPane
 from javax.swing import ImageIcon
 from javax.swing import JLabel
-from panel import Panel 
+from panel import Panel
 from buttonPanel import ButtonPanel 
 from java.awt import Color
 from java.awt import Font
+import bashED
 
 class DialogPanel(Panel):
 
@@ -22,7 +25,7 @@ class DialogPanel(Panel):
 
 
 	def initUI(self):
-		self.manImage = ImageIcon(ASSET_BASE + "danglewood.gif")
+		self.manImage = ImageIcon('bin/gui/media/' + "danglewood.gif")
 		self.manLabel = JLabel(self.manImage)
 
 		self.dialogText = JTextPane()

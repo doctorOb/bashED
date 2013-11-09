@@ -1,4 +1,3 @@
-from panel import Panel
 from javax.swing import JButton
 from java.lang import System
 from java.awt import Color
@@ -8,6 +7,9 @@ from java.awt.event import ActionListener
 from java.awt.event import ActionEvent
 from java.awt.event import MouseEvent
 from java.awt.event import MouseAdapter
+import bashED
+from panel import Panel
+
 
 class ButtonPanel(Panel):
 	
@@ -24,14 +26,14 @@ class ButtonPanel(Panel):
 
 		self.setBackground(Color(0, 50, 0))
 
-		self.playButtonS = ImageIcon(ASSET_BASE + "playButton.png")
-		self.helpButtonS = ImageIcon(ASSET_BASE + "helpButton.png")
-		self.resetButtonS = ImageIcon(ASSET_BASE + "resetButton.png")
-		self.exitButtonS = ImageIcon(ASSET_BASE + "exitButton.png")
-		self.playButtonU = ImageIcon(ASSET_BASE + "playButton_unselected.png")
-		self.helpButtonU = ImageIcon(ASSET_BASE + "helpButton_unselected.png")
-		self.resetButtonU = ImageIcon(ASSET_BASE + "resetButton_unselected.png")
-		self.exitButtonU = ImageIcon(ASSET_BASE + "exitButton_unselected.png")
+		self.playButtonS = ImageIcon('bin/gui/media/' + "playButton.png")
+		self.helpButtonS = ImageIcon('bin/gui/media/' + "helpButton.png")
+		self.resetButtonS = ImageIcon('bin/gui/media/' + "resetButton.png")
+		self.exitButtonS = ImageIcon('bin/gui/media/' + "exitButton.png")
+		self.playButtonU = ImageIcon('bin/gui/media/' + "playButton_unselected.png")
+		self.helpButtonU = ImageIcon('bin/gui/media/' + "helpButton_unselected.png")
+		self.resetButtonU = ImageIcon('bin/gui/media/' + "resetButton_unselected.png")
+		self.exitButtonU = ImageIcon('bin/gui/media/' + "exitButton_unselected.png")
 
 		class MouseHoverAdap(MouseAdapter):
 			def __init__(self, butt, entImage, leaImage):
@@ -77,17 +79,17 @@ class ButtonPanel(Panel):
 
 		class PlayButtonActionListener(ActionListener):
 			def actionPerformed(button, e):
-				self.consolePanel.console.do_play()
+				self.consolePanel.console.do_play('')
 		self.playButton.addActionListener(PlayButtonActionListener())
 
 		class HelpBUttonActionListener(ActionListener):
 			def actionPerformed(button, e):
-				self.consolePanel.console.do_help()
+				self.consolePanel.console.do_help('')
 		self.helpButton.addActionListener(HelpBUttonActionListener())
 
 		class ResetButtonActionListener(ActionListener):
 			def actionPerformed(button, e):
-				self.consolePanel.console.do_reset()
+				self.consolePanel.console.do_reset('')
 		self.resetButton.addActionListener(ResetButtonActionListener())
 
 		class ExitButtonActionListener(ActionListener):
