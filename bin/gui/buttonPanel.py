@@ -84,7 +84,7 @@ class ButtonPanel(Panel):
 
 		class HelpBUttonActionListener(ActionListener):
 			def actionPerformed(button, e):
-				self.consolePanel.console.do_help('')
+				self.consolePanel.console.do_hint('')
 		self.helpButton.addActionListener(HelpBUttonActionListener())
 
 		class ResetButtonActionListener(ActionListener):

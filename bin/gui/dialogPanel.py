@@ -46,12 +46,8 @@ class DialogPanel(Panel):
 
 
 	def initUI(self):
-<<<<<<< HEAD
-		self.manImage = ImageIcon("danglewood.gif")
-		self.manImageSilent = ImageIcon("danglewood-silent.png")
-=======
 		self.manImage = ImageIcon('bin/gui/media/' + "danglewood.gif")
->>>>>>> e84d0d6bbe3e7559d432f670afe4b5810ea8a650
+		self.manImageSilent = ImageIcon('bin/gui/media/' + "danglewood-silent.png")
 		self.manLabel = JLabel(self.manImage)
 
 		self.dialogText = JTextPane()

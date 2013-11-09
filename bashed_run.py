@@ -109,21 +109,20 @@ def load_state():
 
 
 if __name__ == '__main__':
-    parse = optiond
-    parser = argparse.ArgumentParser(
-        description='This is bashED, the interactive tutorial for the unix command line!')
-    parser.add_argument(
+    parser = OptionParser(description='This is bashED, the interactive tutorial for the unix command line!')
+    parser.add_option(
         '-p', '--play', action='store_true', help="This is the default command. It will provide you with the scneario and check to see that you've done it correctly! Use this!")
-    parser.add_argument(
+    parser.add_option(
         '--hint', action='store_true', help="This can give you a hint on how to complete the scenario. Use when you're stuck.")
-    parser.add_argument(
+    parser.add_option(
         '-r', '--reset', action='store_true', help="This will reset your sandbox to how it was at the beginning of the scenario. Use this if you've mucked everything up and just want to start again.")
-    args = parser.parse_args()
-    if args.play:
+    options,args = parser.parse_args()
+
+    if options.play:
         play()
-    elif args.hint:
+    elif options.hint:
         hint()
-    elif args.reset:
+    elif options.reset:
         reset()
     else: #start with a GUI
         os.system('jython -Dpython.path=' + os.path.abspath('bin/gui/mig.jar') + ' ' + os.path.abspath('bin/gui/window.py'))
