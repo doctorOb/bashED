@@ -81,7 +81,7 @@ class Console(cmd.Cmd):
         self.do_shell(line)"""
         shell_cmd = line[0:line.index(' ')] if ' ' in line else line
         if CHDIR in shell_cmd:
-            path = line[len(shell_cmd):]
+            path = line[len(shell_cmd)+1:]
             print path
             try:
                 os.chdir(path)
