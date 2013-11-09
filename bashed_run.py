@@ -11,7 +11,7 @@ sys.path.append(os.path.abspath('bin'))
 sys.path.append(os.path.abspath('gui'))
 sys.path.append(os.path.abspath('.'))
 
-from mission_scenario_manager import get_first_mission_str, get_first_mission, get_scenario_by_str, get_first_scenario_str, get_first_scenario, get_next_scenario_str, get_next_mission_str, get_next_mission
+from mission_scenario_manager import get_first_mission_str, get_first_mission, get_scenario_by_str, get_first_scenario_str, get_first_scenario, get_next_scenario_str, get_next_mission_str, get_next_mission, get_mission_by_str
 
 
 STATE_FILE = os.path.join("bashED", "state.json")
@@ -23,12 +23,15 @@ def play():
     tup = load_state()
     scenario = tup[0]
     state = tup[1]
+    mission = tup[2]
     if scenario.validate():
         scenario.print_correct()
         next_scenario_str = get_next_scenario_str(state['mission'], state['scenario'])
         print "next scenario is %s" % next_scenario_str
         if not next_scenario_str:
             #need to go to the next mission
+            mission.print_correct()
+
             next_mission_str = get_next_mission_str(state['mission'])
             if not next_mission_str:
                 print "GAME OVER!! IN THAT YOU WIN!! YOU BEAT ALL THE MISSIONS!!! WORLD SAVED!!!!!!!!!!!!!!!!!!!!!!!!"
@@ -81,6 +84,7 @@ def load_state():
 
         if it isn't the first time, it loads the mission and scenario defined in state, and returns a tuple,
         the first element of which is the scenario instance, the second element being the dict representing the state.
+        oh and now the third thing is the mission instance
         good luck with thisone, and TODO: refactor this shit."""
     f = open(STATE_FILE,'r')
     state = eval(f.read())
@@ -109,7 +113,7 @@ def load_state():
     elif not state['scenario']:
         raise "ERROR! The state says initialized, but there is no scenario set."
     else:
-        return (get_scenario_by_str(state['mission'], state['scenario']), state)
+        return (get_scenario_by_str(state['mission'], state['scenario']), state, get_mission_by_str(state['mission']))
 
 
 if __name__ == '__main__':
