@@ -15,8 +15,6 @@ from java.awt.event import KeyAdapter
 from net.miginfocom.swing import MigLayout
 from panel import Panel
 
-
-from javax.swing import JLabel
 from javax.swing import JPanel
 from javax.swing import JTextPane
 from javax.swing import JTextField
@@ -41,8 +39,12 @@ class ConsolePanel(Panel):
 	directoryText = None
 
 	def __init__(self):
+<<<<<<< HEAD
 		Panel.__init__(self)
 		self.console = None
+=======
+		Panel.__init__(self, "insets 0 0 0 0")
+>>>>>>> 6f0d330fdbff68b0c1e081dc3afd4884d1104096
 		
 
 
@@ -57,40 +59,55 @@ class ConsolePanel(Panel):
 		self.inText = JTextField()
 		self.inText.setFocusTraversalKeysEnabled(False)
 
+<<<<<<< HEAD
+		self.inText.setText("")
+		self.new_out = FakeOut(self.outText)
+		import sys
+		sys.stdout = self.new_out
+		self.console = BashED_Console(stdin=None,stdout=self.new_out)
+
+		inT = self.inText
+		outT = self.outText
+		class InputTextActionListener(ActionListener):
+
+			def __init__(self,console):
+				self.console = console
+			def actionPerformed(self, e):
+				outT.setText(outT.getText() + "\n" + inT.getText())
+				self.console.onecmd(inT.getText())
+				inT.setText(self.console.prompt)
+=======
 		#create the directory text box
 		self.directoryText = JTextField()
 		self.directoryText.setEditable(False)
-
-		#set up the console
-		import sys
-		sys.stdout = FakeOut(self.outText)
-		self.console = BashED_Console(stdout=sys.stdout)
-		self.directoryText.setText(self.console.get_prompt())
+		self.directoryText.setText("~/agent")
 
 		#create the listener that fires when the 'return' key is pressed
 		class InputTextActionListener(ActionListener):
-			def __init__(self,console):
-				self.console = console
-
-			def actionPerformed(selfBtn, e):
+			def actionPerformed(selfButton, e):
 				#print self.getCommandText()
-				selfBtn.console.onecmd(self.inText.getText())
 				self.outText.setText(self.outText.getText() + "\n" + self.inText.getText())
-
-				self.setDirectoryText(selfBtn.console.get_prompt())
+				self.setDirectoryText(self.outText.getText())
 				self.inText.setText("")
 
 		#create the listener that fires whenever a user hits a key
+>>>>>>> 6f0d330fdbff68b0c1e081dc3afd4884d1104096
 		class InputKeyActionListener(KeyAdapter):
 			def __init__(self,console):
 				self.console = console
-
-			def keyReleased(selfBtn, k):
+			def keyReleased(self, k):
+<<<<<<< HEAD
 				if k.getKeyCode() == 9: #tab character
-					inT.setText(selfBtn.console.tabcomplete(self,inT.getText()))
+					inT.setText(self.console.tabcomplete(self,inT.getText()))
 		self.inText.addActionListener(InputTextActionListener(self.console))
 		self.inText.addKeyListener(InputKeyActionListener(self.console))
+=======
+				print str(k.getKeyCode()) + ":\t" + k.getKeyChar()
 
+		#register the listeners
+		self.inText.addActionListener(InputTextActionListener())
+		self.inText.addKeyListener(InputKeyActionListener())
+>>>>>>> 6f0d330fdbff68b0c1e081dc3afd4884d1104096
 
 		#create a nested panel that will house the directory and the input text box
 		self.nestedInputPanel = Panel("Insets 0 0 0 0")
