@@ -4,6 +4,11 @@ import readline
 import sys
 import subprocess
 
+sys.path.append(os.path.abspath('../../'))
+print sys.path
+
+import bashED
+
 
 DIR_SPECIALS = ['cd','pushd','popd']
 SHELL_START = ' $: '
@@ -106,17 +111,17 @@ class BashED_Console(cmd.Cmd):
         out,err = proc.communicate()
         print out,err
 
-    # def do_play(self,args):
-    #     """calls the play script from the head game file"""
-    #     return bashED.play()
+    def do_play(self,args):
+        """calls the play script from the head game file"""
+        return bashED.play()
 
-    # def do_reset(self,args):
-    #     """resets the game state"""
-    #     return bashED.reset()
+    def do_reset(self,args):
+        """resets the game state"""
+        return bashED.reset()
 
-    # def do_hint(self,args):
-    #     """gives a scenario specific hint to the user"""
-    #     return bashED.hint()
+    def do_hint(self,args):
+        """gives a scenario specific hint to the user"""
+        return bashED.hint()
 
 
 
