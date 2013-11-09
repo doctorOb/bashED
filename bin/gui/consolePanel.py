@@ -112,7 +112,14 @@ class ConsolePanel(Panel):
 				thrd.state = True
 			def run(thrd):
 				thrd.state = !thrd.state
+
+				if (thrd.state):
+					self.inText.setText( self.inText.getText() + str(221) )
+				else:
+					self.inText.setText( self.inText.getText()[:len(self.inText.getText())])
+
 				time.sleep(.2)
+				start()
 
 		Cursor().start()
 
@@ -148,6 +155,10 @@ class ConsolePanel(Panel):
 				# self.parent.write_out("\n" + self.inp.getText())
 				# dirTex.setText(self.console.get_prompt())
 				# self.inp.setText("")
+
+				if (self.inp.getText()[len(self.inp.getText())-1] == str(221)):
+					self.inp.setText(self.inp.getText()[:len(self.inp.getText()-1)])
+
 				self.parent.write_out(self.console.get_prompt() + self.inp.getText() + '\n')
 				if 'clear' in self.inp.getText().split(' ')[0]:
 					self.out.setText("") #clear the screen
