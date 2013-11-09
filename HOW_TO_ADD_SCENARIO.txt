@@ -1,4 +1,0 @@
--you need to create a directory in bashED/scenarios that is the name of your scenario, for example "sc_new"
--inside that is a directory called 'setup' that must contain any new directories and files that you want added to the sandbox (note that files are inherited from previous scenarios if it isn't the first of the mission)
--it must implement a subclass of Scenario that defines the messages for the scenario, as well as the completion conditions, see Scenario for details on that
-

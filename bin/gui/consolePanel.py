@@ -106,7 +106,7 @@ class ConsolePanel(Panel):
 		self.inText.setBackground(Color(0, 20, 0))
 		self.inText.setForeground(Color.WHITE)
 
-		class Cursor(thread.Thread):
+		class Cursor(threading.Thread):
 			def __init__(thrd):
 				threading.Thread.__init__(thrd)
 				thrd.state = True
