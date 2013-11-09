@@ -5,10 +5,11 @@ import glob
 class BashED_Scenario():
 
 	def __init__(self):
+        self.scenario_description = ""
 		src = "setup/"
 		dest = "../../sandbox/"
 		shutil.copytree(src, dest)
-		
+
 	def checkpoint():
 		src = "../../sandbox/"
 		dest = "../../checkpoint/"
@@ -23,7 +24,7 @@ class BashED_Scenario():
 		shutil.copytree(src, dest)
 
 	def print_prompt():
-		pass
+        print self.scenario_description
 
 	def validate():
 		pass
