@@ -3,7 +3,7 @@ import base_scenario
 
 from verification_helpers import prompt, SCENARIO_DIR
 
-class LsScenario(base_scenario.Scenario):
+class Scenario(base_scenario.Scenario):
 
     def __init__(self):
         self.scenario_description = ("You're a secret agent and you need to get into "

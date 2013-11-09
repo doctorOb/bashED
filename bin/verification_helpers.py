@@ -1,9 +1,9 @@
 import os.path
 import filecmp
 
-SANDBOX_DIR = os.path.join("..", "bashED", "sandbox")
-SCENARIO_DIR = os.path.join("..", "bashED", "scenarios")
-
+THIS_DIR = os.path.dirname(os.path.realpath(__file__))
+BASHED_DIR = os.path.join(THIS_DIR, "..", "bashED")
+SANDBOX_DIR = os.path.join(BASHED_DIR, "sandbox")
 
 def dir_exists(path):
     return os.path.isdir(os.path.join(SANDBOX_DIR, path))
@@ -13,19 +13,22 @@ def file_exists(path):
     return os.path.isfile(os.path.join(SANDBOX_DIR, path))
 
 
-def file_matches(attempt, goal, scenario):
+def file_matches(attempt, goal):
     """returns true if the attempt file matches the goal file for the scenario
 
     Args:
         attempt: path of the attempt file (relative to the sandbox)
-        goal: path of the goal file (relative to the particular scenario)
-        scenario: the name of the scenario
+        goal: path of the goal file full plath, unfortunately, fix this later...
 
     Returns:
         True if the goal matches the attempt(and both exist), else False.
     """
-    if os.path.isfile(os.path.join(SCENARIO_DIR, scenario, goal)) and os.path.isfile(os.path.join(SANDBOX_DIR, attempt)):
-        return filecmp.cmp(os.path.join(SCENARIO_DIR, scenario, goal), os.path.join(SANDBOX_DIR, attempt))
+    print goal
+    print os.path.join(SANDBOX_DIR, attempt)
+    if os.path.isfile(goal) and os.path.isfile(os.path.join(SANDBOX_DIR, attempt)):
+        print 'turns out that they do exist'
+        return filecmp.cmp(goal, os.path.join(SANDBOX_DIR, attempt))
+    print 'they dont exist'
     return False
 
 

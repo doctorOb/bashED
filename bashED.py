@@ -5,7 +5,7 @@ import json
 from mission_scenario_manager import get_first_mission_str, get_first_mission, get_scenario_by_str, get_first_scenario_str, get_first_scenario, get_next_scenario_str, get_next_mission_str
 
 
-STATE_FILE = os.path.join("bashED", "state.py")
+STATE_FILE = os.path.join("bashED", "state.json")
 MISSION_DIR = os.path.join("bashED", "missions")
 
 
@@ -16,6 +16,7 @@ def play():
     if scenario.validate():
         scenario.print_correct()
         next_scenario_str = get_next_scenario_str(state['mission'], state['scenario'])
+        print "next scenario is %s" % next_scenario_str
         if not next_scenario_str:
             #need to go to the next mission
             next_mission_str = get_next_mission_str(state['mission'])
@@ -24,7 +25,6 @@ def play():
                 exit(0)
             else:
                 next_mission = get_next_mission(state['mission'])
-                next_mission.setup()
                 next_mission.print_prompt()
                 state['mission'] = next_mission_str
                 next_scenario_str = get_first_scenario_str((state['mission']))
@@ -75,12 +75,11 @@ def load_state():
             mstr = get_first_mission_str()
             mission = get_first_mission()
             state['mission'] = mstr
-            sstr = get_first_scenario_str()
-            scenario = get_first_scenario()
+            sstr = get_first_scenario_str(mstr)
+            scenario = get_first_scenario(mstr)
             state['scenario'] = sstr
             state['initialized'] = True
 
-            mission.setup()
             mission.print_prompt()
             scenario.setup()
             scenario.print_prompt()
@@ -88,10 +87,10 @@ def load_state():
             write_state(state)
             exit(0)
             #yeah this is probably a bad idea, but it's the "right" thing to do? right? it's only 3:35am...
-        elif not state['current_mission']:
-            raise "ERROR! The state says initialized, but there is no current_misison set."
-        elif not state['current_scenario']:
-            raise "ERROR! The state says initialized, but there is no current_scenario set."
+        elif not state['mission']:
+            raise "ERROR! The state says initialized, but there is no misison set."
+        elif not state['scenario']:
+            raise "ERROR! The state says initialized, but there is no scenario set."
         else:
             return (get_scenario_by_str(state['mission'], state['scenario']), state)
 
