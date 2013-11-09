@@ -17,7 +17,7 @@ from javax.swing import ImageIcon
 from javax.swing import JLayeredPane
 from javax.swing import JLabel
 from javax.swing import JDesktopPane
-import bashED
+import bashed_run
 #from console import BashED_Console
 
 #props = System.getProperties()
