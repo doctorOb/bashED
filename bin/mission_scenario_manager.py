@@ -10,8 +10,15 @@ SCENARIO_FILE = "scenario_order.txt"
 """OMG please refactor this to not have such repetative code, plz plzpl z"""
 
 def get_scenario_by_str(mission_str, scenario_str):
+    print  os.path.join(MISSION_DIR, mission_str, 'scenarios', scenario_str, "scenario.py")
+
     module = imp.load_source('Scenario', os.path.join(MISSION_DIR, mission_str, 'scenarios', scenario_str, "scenario.py"))
     return module.Scenario()
+
+def get_mission_by_str(mission_str):
+    module = imp.load_source('Mission', os.path.join(MISSION_DIR, mission_str, "mission.py"))
+    return module.Mission()
+
 
 
 def get_first_mission_str():
