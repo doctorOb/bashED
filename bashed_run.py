@@ -20,11 +20,6 @@ MISSION_DIR = os.path.join("bashED", "missions")
 
 
 def play():
-
-    print 'stdout remapped'
-    old = sys.stdout
-    sys.stdout = StringIO()
-
     tup = load_state()
     scenario = tup[0]
     state = tup[1]
@@ -63,10 +58,10 @@ def play():
         print "Not quite the correct solution. Run `bashed --hint` if you need more help, and `bashed --reset` to start over."
         scenario.print_prompt()
 
-    out = sys.stdout.getvalue()
-    sys.stdout = old
-    print out
-    return old
+#    out = sys.stdout.getvalue()
+#    sys.stdout = old
+#    print out
+#    return old
 
 
 def hint():
