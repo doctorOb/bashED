@@ -1,1 +1,3 @@
-{"initialized": true, "mission": "mission_one", "scenario": "ls_copy"}
+{"initialized": True,
+ "mission": "mission_one",
+  "scenario": "ls_copy"}

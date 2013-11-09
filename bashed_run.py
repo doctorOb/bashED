@@ -71,6 +71,7 @@ def reset():
 def write_state(state):
     f = open(STATE_FILE, 'w')
     f.write(str(state))
+    f.close()
 
 
 def load_state():
@@ -81,10 +82,12 @@ def load_state():
         if it isn't the first time, it loads the mission and scenario defined in state, and returns a tuple,
         the first element of which is the scenario instance, the second element being the dict representing the state.
         good luck with thisone, and TODO: refactor this shit."""
-    s = open(STATE_FILE, 'r').read()
-    state = ast.literal_eval(s)
+    f = open(STATE_FILE,'r')
+    state = eval(f.read())
+    f.close()
     #current_mission a string, current_scenario a string, initialized a bool
     if not state['initialized']:
+        print('initializingi state')
         mstr = get_first_mission_str()
         mission = get_first_mission()
         state['mission'] = mstr
