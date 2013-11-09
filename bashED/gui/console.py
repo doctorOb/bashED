@@ -3,11 +3,11 @@ import cmd
 import readline
 import sys
 import subprocess
+from StringIO import StringIO
 
 DIR_SPECIALS = ['cd','pushd','popd']
 SHELL_START = ' $: '
 SHOW_ERROR = True
-
 
 
 def error(msg):
@@ -64,7 +64,6 @@ class BashED_Console(cmd.Cmd):
         self.prompt = os.getcwd() + SHELL_START
 
     def get_prompt(self):
-        print(self._root)
         return self.prompt.replace(self._root,'')
 
     def get_hist(self, args):
@@ -77,7 +76,13 @@ class BashED_Console(cmd.Cmd):
 
     def do_shell(self, args):
         """Pass command to a system shell when line begins with '!'"""
-        print subprocess.Popen(args, stdout=subprocess.PIPE, shell=True).communicate()[0]
+        raw = ''
+        for arg in args:
+            raw += arg
+        proc = subprocess.Popen(raw,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True)
+        out,err = proc.communicate()
+        print out,err
+
 
     ## Override methods in Cmd object ##
     def preloop(self):
@@ -148,16 +153,22 @@ class BashED_Console(cmd.Cmd):
         else:
             search_dir = os.getcwd()
 
-        return [x for x in os.listdir(search_dir) if x.startswith(text)]
+        print search_dir
+        matches = [x for x in os.listdir(search_dir) if x.startswith(text.strip())]
 
-    def tabcomplete(self,text,line):
-        parts = line.split(' ')
-        if len(parts) > 1:
-            text = parts[len(parts) - 1]
+        if len(matches) == 1: #just one, auto complete and fill in command name
+            [line.replace(text,'') + ' ' + matches[0]]
         else:
-            text = line
-        print('complete text',text)
-        return self.completedefault(text,line,0,0)
+            return matches
+
+    def tabcomplete(self,line):
+        try:
+            last = line.rstrip()[line.rindex(' '):]
+        except:
+            last = line
+
+        print('complete text',last)
+        return self.completedefault(last,line,0,0)
 
 
 
