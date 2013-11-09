@@ -24,14 +24,14 @@ class ButtonPanel(Panel):
 
 		self.setBackground(Color(0, 50, 0))
 
-		self.playButtonS = ImageIcon("playButton.png")
-		self.helpButtonS = ImageIcon("helpButton.png")
-		self.resetButtonS = ImageIcon("resetButton.png")
-		self.exitButtonS = ImageIcon("exitButton.png")
-		self.playButtonU = ImageIcon("playButton_unselected.png")
-		self.helpButtonU = ImageIcon("helpButton_unselected.png")
-		self.resetButtonU = ImageIcon("resetButton_unselected.png")
-		self.exitButtonU = ImageIcon("exitButton_unselected.png")
+		self.playButtonS = ImageIcon(ASSET_BASE + "playButton.png")
+		self.helpButtonS = ImageIcon(ASSET_BASE + "helpButton.png")
+		self.resetButtonS = ImageIcon(ASSET_BASE + "resetButton.png")
+		self.exitButtonS = ImageIcon(ASSET_BASE + "exitButton.png")
+		self.playButtonU = ImageIcon(ASSET_BASE + "playButton_unselected.png")
+		self.helpButtonU = ImageIcon(ASSET_BASE + "helpButton_unselected.png")
+		self.resetButtonU = ImageIcon(ASSET_BASE + "resetButton_unselected.png")
+		self.exitButtonU = ImageIcon(ASSET_BASE + "exitButton_unselected.png")
 
 		class MouseHoverAdap(MouseAdapter):
 			def __init__(self, butt, entImage, leaImage):
@@ -77,17 +77,17 @@ class ButtonPanel(Panel):
 
 		class PlayButtonActionListener(ActionListener):
 			def actionPerformed(button, e):
-				self.consolePanel.sendCommand("python bashED.py --help")
+				self.consolePanel.console.do_play()
 		self.playButton.addActionListener(PlayButtonActionListener())
 
 		class HelpBUttonActionListener(ActionListener):
 			def actionPerformed(button, e):
-				self.consolePanel.sendCommand("dir")
+				self.consolePanel.console.do_help()
 		self.helpButton.addActionListener(HelpBUttonActionListener())
 
 		class ResetButtonActionListener(ActionListener):
 			def actionPerformed(button, e):
-				self.consolePanel.sendCommand("cls")
+				self.consolePanel.console.do_reset()
 		self.resetButton.addActionListener(ResetButtonActionListener())
 
 		class ExitButtonActionListener(ActionListener):

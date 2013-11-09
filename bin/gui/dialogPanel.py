@@ -22,7 +22,7 @@ class DialogPanel(Panel):
 
 
 	def initUI(self):
-		self.manImage = ImageIcon("danglewood.gif")
+		self.manImage = ImageIcon(ASSET_BASE + "danglewood.gif")
 		self.manLabel = JLabel(self.manImage)
 
 		self.dialogText = JTextPane()

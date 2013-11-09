@@ -46,7 +46,7 @@ class Window(JFrame):
         #j.setOpaque(False)
         self.setLayout(None)
 
-        self.setIconImage(ImageIcon("icon.png").getImage())
+        self.setIconImage(ImageIcon(ASSET_BASE + "icon.png").getImage())
 
 
 
@@ -56,7 +56,7 @@ class Window(JFrame):
         mp.setBounds(0, 0, size.width, size.height)
 
 
-        imageTest = ImageIcon("image.png")
+        imageTest = ImageIcon(ASSET_BASE + "image.png")
         imageTestLabel = JLabel(imageTest)
         self.add(imageTestLabel)
         imageTestLabel.setBounds(0, 0, size.width, size.height)
