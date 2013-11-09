@@ -2,6 +2,7 @@ import argparse
 import os
 
 STATE_FILE = os.path.join("bashED", "state.py")
+MISSION_DIR = os.path.join("bashED", "missions")
 
 
 def play():
@@ -28,7 +29,7 @@ def reset():
 def load_scenario():
     state = {}
     execfile(STATE_FILE, state)
-    #current_scenario a string, initialized a bool
+    #current_mission a string, current_scenario a string, initialized a bool
     if not state['initialized']:
         #GET THE FIRST SCENARIO OF SOME MISSION, AND THEN call the setup thingymabober
         pass
