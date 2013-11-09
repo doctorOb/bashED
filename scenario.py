@@ -6,16 +6,18 @@ class BashED_Scenario():
 
 	def __init__(self):
         self.scenario_description = ""
+        self.hint = ""
+        self.win_message = ""
 		src = "setup/"
 		dest = "../../sandbox/"
 		shutil.copytree(src, dest)
 
-	def checkpoint():
+	def checkpoint(self):
 		src = "../../sandbox/"
 		dest = "../../checkpoint/"
 		shutil.copytree(src, dest)
 
-	def recover():
+	def recover(self):
 		src = "../../checkpoint/"
 		dest = "../../sandbox/"
 		files_to_remove = glob.glob(dest + "*")
@@ -23,8 +25,14 @@ class BashED_Scenario():
 			os.remove(file)
 		shutil.copytree(src, dest)
 
-	def print_prompt():
+	def print_prompt(self):
         print self.scenario_description
 
-	def validate():
+	def validate(self):
 		pass
+
+    def print_hint(self):
+        print self.hint
+
+    def print_correct(self):
+        print self.win_message
