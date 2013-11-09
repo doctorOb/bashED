@@ -18,7 +18,7 @@ class ButtonPanel(Panel):
 
 	def __init__(self, inconsolePanel):
 		self.consolePanel = inconsolePanel
-		Panel.__init__(self, " insets 0 0 0 0, flowy")
+		Panel.__init__(self, "gap 1px 1px, insets 0 0 0 0, flowy")
 
 	def initUI(self):
 
@@ -69,10 +69,10 @@ class ButtonPanel(Panel):
 		self.exitButton.setContentAreaFilled(False)
 		self.exitButton.setMaximumSize(Dimension(self.exitButtonS.getIconWidth(), self.exitButtonS.getIconHeight()))
 		
-		self.playButton.addMouseListener(MouseHoverAdap(self.playButton, self.playButtonS, self.playButtonU))
-		self.helpButton.addMouseListener(MouseHoverAdap(self.helpButton, self.helpButtonS, self.helpButtonU))
-		self.resetButton.addMouseListener(MouseHoverAdap(self.resetButton, self.resetButtonS, self.resetButtonU))
-		self.exitButton.addMouseListener(MouseHoverAdap(self.exitButton, self.exitButtonS, self.exitButtonU))
+		# self.playButton.addMouseListener(MouseHoverAdap(self.playButton, self.playButtonS, self.playButtonU))
+		# self.helpButton.addMouseListener(MouseHoverAdap(self.helpButton, self.helpButtonS, self.helpButtonU))
+		# self.resetButton.addMouseListener(MouseHoverAdap(self.resetButton, self.resetButtonS, self.resetButtonU))
+		# self.exitButton.addMouseListener(MouseHoverAdap(self.exitButton, self.exitButtonS, self.exitButtonU))
 
 
 		class PlayButtonActionListener(ActionListener):
@@ -100,7 +100,7 @@ class ButtonPanel(Panel):
 
 
 	def addUI(self):
-		self.add(self.playButton, "pushx, growx")
-		self.add(self.helpButton, "pushx, growx")
-		self.add(self.resetButton, "pushx, growx")
-		self.add(self.exitButton, "pushx, growx")
+		self.add(self.playButton, "push, grow")
+		self.add(self.helpButton, "push, grow")
+		self.add(self.resetButton, "push, grow")
+		self.add(self.exitButton, "push, grow")
