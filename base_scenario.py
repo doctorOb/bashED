@@ -40,6 +40,7 @@ class Scenario():
         shutil.copytree(self.src, self.dest)
 
     def print_prompt(self):
+        print '-'*30 + " next task " + '-'*30
         print self.scenario_description
 
     def print_hint(self):
