@@ -2,7 +2,7 @@
 from __future__ import with_statement
 import os
 import optparse
-import ast
+import shelve
 import sys
 from optparse import OptionParser
 
@@ -19,6 +19,7 @@ MISSION_DIR = os.path.join("bashED", "missions")
 
 
 def play():
+
     tup = load_state()
     scenario = tup[0]
     state = tup[1]
