@@ -35,18 +35,24 @@ class FakeOut():
 		self.outText.setText(self.outText.getText() + text)
 
 class ConsolePanel(Panel):
-	
-	outText = None
-	outTextScroller = None
-	nestedInputPanel = None
-	inText = None
-	directoryText = None
 
 	def __init__(self):
 		Panel.__init__(self)
 		self.console = None
-		
+		self.outText = None
+		self.inText = None
+		self.outTextScroller = None
+		self.nestedInputPanel = None
+		self.directoryText = None
 
+	def setDirectoryText(self, dirText):
+		self.directoryText.setText(dirText)
+		self.nestedInputPanel.revalidate()
+
+	def write_out(self,text):
+		if not self.outText:
+			return
+		self.outText.setText(self.outText.getText() + text)
 
 	def initUI(self):
 
@@ -62,41 +68,64 @@ class ConsolePanel(Panel):
 		#create the directory text box
 		self.directoryText = JTextField()
 		self.directoryText.setEditable(False)
-
+		self.nestedInputPanel = Panel("Insets 0 0 0 0")
 		#set up the console
 		import sys
 		sys.stdout = FakeOut(self.outText)
 		self.console = BashED_Console(stdout=sys.stdout)
-		self.directoryText.setText(self.console.get_prompt())
+		self.setDirectoryText(self.console.get_prompt())
+
+
+		dirTex = self.directoryText;
 
 		#create the listener that fires when the 'return' key is pressed
 		class InputTextActionListener(ActionListener):
-			def __init__(self,console):
+			def __init__(self,parent,inp,out,console):
+				self.parent = parent
+				self.inp = inp
+				self.out = out
 				self.console = console
 
-			def actionPerformed(selfBtn, e):
+			def actionPerformed(self, e):
 				#print self.getCommandText()
-				selfBtn.console.onecmd(self.inText.getText())
-				self.outText.setText(self.outText.getText() + "\n" + self.inText.getText())
-
-				self.setDirectoryText(selfBtn.console.get_prompt())
-				self.inText.setText("")
+				print(self.console.get_prompt())
+				self.console.onecmd(self.inp.getText())
+				self.parent.write_out("\n" + self.inp.getText())
+				dirTex.setText(self.console.get_prompt())
+				self.inp.setText("")
 
 		#create the listener that fires whenever a user hits a key
 		class InputKeyActionListener(KeyAdapter):
-			def __init__(self,console):
+			def __init__(self,parent,inp,out,console):
+				self.parent = parent
+				self.inp = inp
+				self.out = out
 				self.console = console
 
-			def keyReleased(selfBtn, k):
+			def keyReleased(self, k):
+				inp = self.inp.getText()
 				if k.getKeyCode() == 9: #tab character
-					autos = selfBtn.console.tabcomplete(self.inText.getText())
-					self.inText.setText(autos[0])
-		self.inText.addActionListener(InputTextActionListener(self.console))
-		self.inText.addKeyListener(InputKeyActionListener(self.console))
+					autos = self.console.tabcomplete(self.inp.getText())
+					if len(autos) == 1:
+						self.inp.setText(autos[0])
+					else:
+						for option in autos:
+							self.parent.write_out(option)
+				hist = None
+				if k.getKeyCode() == 38:
+					hist = self.console.next_hist()
+				if k.getKeyCode() == 40:
+					hist = self.console.last_hist()
+
+				if hist:
+					self.inp.setText(hist)
+
+		self.inText.addActionListener(InputTextActionListener(self,self.inText,self.outText,self.console))
+		self.inText.addKeyListener(InputKeyActionListener(self,self.inText,self.outText,self.console))
 
 
 		#create a nested panel that will house the directory and the input text box
-		self.nestedInputPanel = Panel("Insets 0 0 0 0")
+		
 
 
 
@@ -106,6 +135,3 @@ class ConsolePanel(Panel):
 		self.nestedInputPanel.add(self.directoryText, "cell 0 0")
 		self.nestedInputPanel.add(self.inText, "cell 1 0, spanx, pushx, growx")
 
-	def setDirectoryText(self, dirText):
-		self.directoryText.setText(dirText)
-		self.nestedInputPanel.revalidate()
