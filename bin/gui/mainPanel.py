@@ -15,6 +15,7 @@ from javax.swing import SwingUtilities
 from java.awt.event import MouseAdapter
 from java.awt.event import MouseMotionAdapter
 from java.awt.event import MouseEvent
+from javax.swing import ImageIcon
 from os import path
 
 
@@ -34,8 +35,8 @@ class MainPanel(Panel):
 		self.dialogsPanel = DialogPanel(self.consolePanel)
 		self.dialogsPanel.setMinimumSize(Dimension(1, 112))
 		self.dialogsPanel.setMaximumSize(Dimension(9999, 112))
-		self.title = JLabel("BashED")
-		self.title.setFont(Font("Arial", Font.BOLD, 24))
+		self.title = JLabel(ImageIcon('bin/gui/media/' + "logo.png"))
+		#self.title.setFont(Font("Arial", Font.BOLD, 24))
 
 	def addUI(self):
 		self.add(self.title, "cell 0 0")

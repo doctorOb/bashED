@@ -91,11 +91,11 @@ class ConsolePanel(Panel):
 
 		self.outTextScroller = JScrollPane(self.outText)
 		#self.outText.setOpaque(False)
-		self.outText.setBackground(Color(0, 20, 0, 220))
+		self.outText.setBackground(Color(0, 20, 0))
 		self.outText.setForeground(Color.WHITE)
 
 		#self.outTextScroller.setOpaque(False)
-		self.outTextScroller.setBackground(Color(0, 20, 0, 200))
+		self.outTextScroller.setBackground(Color(0, 20, 0))
 
 		#self.outText.repaint()
 
