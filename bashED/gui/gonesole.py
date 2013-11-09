@@ -4,15 +4,10 @@ import readline
 import sys
 import subprocess
 
-sys.path.append(os.path.abspath('../../'))
-print sys.path
-
-import bashED
-
-
 DIR_SPECIALS = ['cd','pushd','popd']
 SHELL_START = ' $: '
 SHOW_ERROR = True
+
 
 
 def error(msg):
@@ -26,9 +21,10 @@ class BashED_Console(cmd.Cmd):
 
     def __init__(self,stdin=None,stdout=None):
         cmd.Cmd.__init__(self,stdin=stdin,stdout=stdout)
+        print('d')
+        self.prompt = SHELL_START
         self.intro  = "Welcome to console!"  ## defaults to None
-        self._root = os.path.abspath('../../../')
-        self.prompt = self._root + SHELL_START
+        self._root = os.getcwd()
         self.stdout = stdout
         self._specials = {
             'cd' : self.chdir,
@@ -61,42 +57,16 @@ class BashED_Console(cmd.Cmd):
                 path = path[0:path.rindex('/')]
             except:
                 break
-
         return path
 
 
     def update_prompt(self):
         self.prompt = os.getcwd() + SHELL_START
-
-    def get_prompt(self):
-        self.update_prompt()
-        return self.prompt.replace(self._root,'')
+        self.prompt = self.prompt.replace(self._root,'')
 
     def get_hist(self, args):
         """return a list of commands that have been entered"""
         return self._hist
-
-    def next_hist(self):
-        """traverse the history list to an earlier entry"""
-        if len(self._hist)-1 > self._histidx+1:
-            hist = self._hist[self._histidx+1]
-            self._histidx+=1
-        else:
-            self._histidx = len(self._hist) - 1
-            hist = self._hist[self._histidx]
-
-        return hist
-
-    def last_hist(self):
-        """traverse the history list to a later entry"""
-
-        if self._histidx-1 > 0:
-            hist = self._hist[self._histidx-1]
-            self._histidx-=1
-        else:
-            self._histidx = -1
-            hist = self._hist[self._histidx]
-        return hist
 
     def do_exit(self, args):
         """Exits from the console"""
@@ -104,26 +74,8 @@ class BashED_Console(cmd.Cmd):
 
     def do_shell(self, args):
         """Pass command to a system shell when line begins with '!'"""
-        raw = ''
-        for arg in args:
-            raw += arg
-        proc = subprocess.Popen(raw,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True)
-        out,err = proc.communicate()
-        print out,err
-
-    def do_play(self,args):
-        """calls the play script from the head game file"""
-        return bashED.play()
-
-    def do_reset(self,args):
-        """resets the game state"""
-        return bashED.reset()
-
-    def do_hint(self,args):
-        """gives a scenario specific hint to the user"""
-        return bashED.hint()
-
-
+        print args
+        print subprocess.Popen(args, stdout=subprocess.PIPE, shell=True).communicate()[0]
 
     ## Override methods in Cmd object ##
     def preloop(self):
@@ -133,7 +85,7 @@ class BashED_Console(cmd.Cmd):
         self._locals  = {}      ## Initialize execution namespace for user
         self._globals = {}
         self._dstack = [] ## stack used to hold directories for pushd and popd
-        self._histidx = -1
+
 
     def postloop(self):
         """Take care of any unfinished business.
@@ -144,8 +96,7 @@ class BashED_Console(cmd.Cmd):
 
     def precmd(self, line):
         """hook that gets called before the cmd is actually processed. Can manipulate the line as desired before passing it on"""
-        self._hist.insert(0,line.strip())
-        self._histidx = -1
+        self._hist += [ line.strip() ]
 
         for part in line.split(' '):
             if len(part) < 1:
@@ -156,6 +107,12 @@ class BashED_Console(cmd.Cmd):
                 return ''
 
         return line
+
+    def postcmd(self, stop, line):
+        """If you want to stop the console, return something that evaluates to true.
+           If you want to do some post command processing, do it here.
+        """
+        return stop
 
     def emptyline(self):    
         pass #default is to reenter most recent command. This overrides it.
@@ -189,23 +146,16 @@ class BashED_Console(cmd.Cmd):
         else:
             search_dir = os.getcwd()
 
-        matches = [x for x in os.listdir(search_dir) if x.startswith(text)]
+        return [x for x in os.listdir(search_dir) if x.startswith(text)]
 
-        if len(matches) == 1: #just one, auto complete and fill in command name
-            return [line.replace(text,'') + matches[0]]
-        elif len(matches) > 1:
-            return matches
+    def tabcomplete(self,text,line):
+        parts = line.split(' ')
+        if len(parts) > 1:
+            text = parts[len(parts) - 1]
         else:
-            return []
-
-    def tabcomplete(self,line):
-        try:
-            last = line.split(' ')
-            last = last[len(last) - 1]
-        except:
-            last = line
-
-        return self.completedefault(last,line,0,0)
+            text = line
+        print('complete text',text)
+        return self.completedefault(text,line,0,0)
 
 
 
