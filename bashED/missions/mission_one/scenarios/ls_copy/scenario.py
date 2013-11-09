@@ -11,10 +11,10 @@ class Scenario(base_scenario.Scenario):
         self.scenario_description = ("You're a secret agent and you need to get into "
                                      "some system or something like that. There's a "
                                      "file in this directory that contains the "
-                                     "password to the system. Use the `ls` command "
+                                     "password to the system. Use the 'ls' command "
                                      "to see the files in the current directory, and "
                                      "find the files with the passwords!")
-        self.hint = "type `ls` and see which file might contain the passwords, then type `bashed play` to continue"
+        self.hint = "type 'ls' and see which file might contain the passwords, then type 'bashed play' to continue"
         self.dir = THIS_DIR
         self.win_message = "Great job! You found the file!"
 
