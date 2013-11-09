@@ -5,6 +5,7 @@ import optparse
 import shelve
 import sys
 from optparse import OptionParser
+from StringIO import StringIO
 
 
 sys.path.append(os.path.abspath('bin'))
@@ -20,10 +21,14 @@ MISSION_DIR = os.path.join("bashED", "missions")
 
 def play():
 
+    print 'stdout remapped'
+    old = sys.stdout
+    sys.stdout = StringIO()
+
     tup = load_state()
     scenario = tup[0]
     state = tup[1]
-    if scenario.validate():
+    if not scenario.validate():
         scenario.print_correct()
         next_scenario_str = get_next_scenario_str(state['mission'], state['scenario'])
         print "next scenario is %s" % next_scenario_str
@@ -55,6 +60,11 @@ def play():
     else:
         print "Not quite the correct solution. Run `bashed --hint` if you need more help, and `bashed --reset` to start over."
         scenario.print_prompt()
+
+    out = sys.stdout.getvalue()
+    sys.stdout = old
+    print out
+    return old
 
 
 def hint():
