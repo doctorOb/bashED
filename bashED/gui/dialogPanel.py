@@ -16,8 +16,10 @@ class DialogPanel(Panel):
 	buttonsPanel = None
 
 
-	def __init__(self):
+	def __init__(self, inconsolePanel):
+		self.consolePanel = inconsolePanel
 		Panel.__init__(self, "insets 0 0 0 0")
+
 
 	def initUI(self):
 		self.manImage = ImageIcon("danglewood.gif")
@@ -31,7 +33,7 @@ class DialogPanel(Panel):
 		self.dialogText.setForeground(Color.WHITE)
 		self.dialogText.setFont(Font("Arial", Font.BOLD, 15))
 
-		self.buttonsPanel = ButtonPanel()
+		self.buttonsPanel = ButtonPanel(self.consolePanel)
 
 
 		self.dialogText.setText("Welcome to BashED!!!")
