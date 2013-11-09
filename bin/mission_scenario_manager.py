@@ -1,7 +1,7 @@
 import os
 import importlib
 
-MISSION_DIR = os.path.join("bashED", "missions")
+MISSION_DIR = os.path.join("..","bashED", "missions")
 MISSION_ORDER = os.path.join(MISSION_DIR, "mission_order.txt")
 SCENARIO_FILE = "scenario_order.txt"
 
@@ -51,6 +51,6 @@ def get_next_mission(prev_mission):
 
 def get_next_scenario(curr_mission, prev_scenario):
     """takes in the previous mission name and gives the next mission object"""
-    sstr = get_next_scenario_str(prev_scenario)
+    sstr = get_next_scenario_str(curr_mission, prev_scenario)
     module = importlib.import_module(os.path.join(MISSION_DIR, curr_mission, sstr, "scenario"))
     return module.Scenario()
