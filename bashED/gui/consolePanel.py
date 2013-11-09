@@ -49,29 +49,35 @@ class ConsolePanel(Panel):
 
 	def initUI(self):
 
-		font = Font("Courier", Font.PLAIN, 14)
+		font = Font("Courier", Font.BOLD, 14)
 
 		#create the output text panel
 		self.outText = JTextPane()
 		self.outText.setEditable(False)
 		self.outText.setFont(font)
 		self.outTextScroller = JScrollPane(self.outText)
-
+		self.outText.setBackground(Color(0, 20, 0))
+		self.outText.setForeground(Color.WHITE)
 
 		#create the input text box
 		self.inText = JTextField()
 		self.inText.setFocusTraversalKeysEnabled(False)
 		self.inText.setFont(font)
+		self.inText.setBackground(Color(0, 20, 0))
+		self.inText.setForeground(Color.WHITE)
 
 		#create the directory text box
 		self.directoryText = JTextField()
 		self.directoryText.setEditable(False)
-
+		self.directoryText.setFont(font)
+		self.directoryText.setBackground(Color(0, 20, 0))
+		self.directoryText.setForeground(Color.WHITE)
 		#set up the console
 		import sys
 		sys.stdout = FakeOut(self.outText)
 		self.console = BashED_Console(stdout=sys.stdout)
 		self.directoryText.setText(self.console.get_prompt())
+		self.revalidate();
 
 		#create the listener that fires when the 'return' key is pressed
 		class InputTextActionListener(ActionListener):
@@ -80,9 +86,10 @@ class ConsolePanel(Panel):
 
 			def actionPerformed(selfBtn, e):
 				#print self.getCommandText()
+				#self.outText.setText(self.outText.getText() + "\n" + self.inText.getText())
+				self.outText.setText(self.outText.getText() + " >> " + self.inText.getText() + "\n")
 				selfBtn.console.onecmd(self.inText.getText())
-				self.outText.setText(self.outText.getText() + "\n" + self.inText.getText())
-
+				
 				self.setDirectoryText(selfBtn.console.get_prompt())
 				self.inText.setText("")
 
@@ -93,7 +100,8 @@ class ConsolePanel(Panel):
 
 			def keyReleased(selfBtn, k):
 				if k.getKeyCode() == 9: #tab character
-					inT.setText(selfBtn.console.tabcomplete(self,inT.getText()))
+					self.inText.setText(selfBtn.console.tabcomplete(self,self.inText.getText()))
+		
 		self.inText.addActionListener(InputTextActionListener(self.console))
 		self.inText.addKeyListener(InputKeyActionListener(self.console))
 

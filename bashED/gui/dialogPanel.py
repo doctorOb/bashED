@@ -4,6 +4,8 @@ from javax.swing import ImageIcon
 from javax.swing import JLabel
 from panel import Panel 
 from buttonPanel import ButtonPanel 
+from java.awt import Color
+from java.awt import Font
 
 class DialogPanel(Panel):
 
@@ -24,6 +26,10 @@ class DialogPanel(Panel):
 		self.dialogText = JTextPane()
 		self.dialogText.setEditable(False)
 		self.dialogTextScroller = JScrollPane(self.dialogText);
+
+		self.dialogText.setBackground(Color(0, 24, 0))
+		self.dialogText.setForeground(Color.WHITE)
+		self.dialogText.setFont(Font("Arial", Font.BOLD, 15))
 
 		self.buttonsPanel = ButtonPanel()
 
