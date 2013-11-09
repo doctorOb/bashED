@@ -4,7 +4,7 @@ import readline
 
 DIR_SPECIALS = ['cd','pushd','popd']
 SHELL_START = ' $: '
-SHOW_ERROR = False
+SHOW_ERROR = True
 
 
 
@@ -31,7 +31,7 @@ class BashED_Console(cmd.Cmd):
     def get_command(self,line):
         """get the command (arg[0]) from a input line, and return it"""
         if ' ' in line:
-            return line[0:line.index(' ')]
+            return line[0:line.index(' ')].strip()
         else:
             return line
 
@@ -43,6 +43,18 @@ class BashED_Console(cmd.Cmd):
             path = line
 
         return path
+
+    def closest_path(self,path):
+        """given a potential path (such as /root/sys/almostaname), finds the closest directory in the tree"""
+        path = os.path.abspath(path)
+        while not os.path.isdir(path):
+            try:
+                path = path[0:path.rindex('/')]
+            except:
+                break
+
+        return path
+
 
     def update_prompt(self):
         self.prompt = os.getcwd() + SHELL_START
@@ -58,23 +70,6 @@ class BashED_Console(cmd.Cmd):
     def do_shell(self, args):
         """Pass command to a system shell when line begins with '!'"""
         os.system(args)
-
-    def completedefault(self, text, line, start_index, end_index):
-        """auto complete as the shell would (for file names in current directory)"""
-
-        if self.get_command(line) in self._specials.keys():
-            path = self.get_path(line)
-            try:
-                os.listdir(path)
-                search_dir = path
-            except:
-                search_dir = path[0:path.rindex('/')] if '/' in path else path
-
-            text = text[text.rindex('/'):] if '/' in text else text
-        else:
-            search_dir = os.getcwd()
-
-        return [x for x in os.listdir(search_dir) if x.startswith(text)]
 
     ## Override methods in Cmd object ##
     def preloop(self):
@@ -97,6 +92,13 @@ class BashED_Console(cmd.Cmd):
         """hook that gets called before the cmd is actually processed. Can manipulate the line as desired before passing it on"""
         self._hist += [ line.strip() ]
 
+        for part in line.split(' '):
+            if len(part) < 1:
+                pass
+            path = self.closest_path(part)
+            if self._root not in os.path.abspath(part): 
+                error('cant venture out of bounds')
+                return ''
 
         return line
 
@@ -107,7 +109,7 @@ class BashED_Console(cmd.Cmd):
         return stop
 
     def emptyline(self):    
-        pass
+        pass #default is to reenter most recent command. This overrides it.
 
     def chdir(self,line):
         """interpret the input line as a cd command, and perform the neccessary directory walking actions"""
@@ -117,21 +119,34 @@ class BashED_Console(cmd.Cmd):
             self.update_prompt()
         except:
             error('cd error') 
+
     def pushd(self,line):
         """interpret the input line as the pushd command. Move the user to the directory, and push the previous one onto the dstack."""
         self._dstack.insert(0,os.getcwd())
         self.chdir(line)
 
     def popd(self,line):
+        """perform the popd command, and return to the directory at the top of the dstack (if one exists)"""
         try:
             d = self._dstack.pop()
             self.chdir(d)
         except:
             error('popd error')
 
+    def completedefault(self, text, line, start_index, end_index):
+        """auto complete as the shell would (for file names in current directory)"""
+        if self.get_command(line) in self._specials.keys():
+            search_dir = self.closest_path(self.get_path(line))
+        else:
+            search_dir = os.getcwd()
+
+        return [x for x in os.listdir(search_dir) if x.startswith(text)]
+
     def default(self, line):       
         """called when the command is not recognized as one of those defined above. 
         self.do_shell(line)"""
+        if not self.precmd(line):
+            print 'fuck'
         shell_cmd = self.get_command(line)
         if shell_cmd in self._specials.keys():
             self._specials[shell_cmd](line)
