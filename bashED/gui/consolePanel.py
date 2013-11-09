@@ -29,6 +29,8 @@ class FakeOut():
 	def __init__(self,outText):
 		self.outText = outText
 
+	def fileno(self):
+		return 3
 	def write(self,text):
 		#dont print in here
 		self.outText.setText(self.outText.getText() + text)
@@ -100,8 +102,8 @@ class ConsolePanel(Panel):
 
 			def keyReleased(selfBtn, k):
 				if k.getKeyCode() == 9: #tab character
-					self.inText.setText(selfBtn.console.tabcomplete(self,self.inText.getText()))
-		
+					autos = selfBtn.console.tabcomplete(self.inText.getText())
+					self.inText.setText(autos[0])
 		self.inText.addActionListener(InputTextActionListener(self.console))
 		self.inText.addKeyListener(InputKeyActionListener(self.console))
 
