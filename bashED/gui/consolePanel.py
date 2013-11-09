@@ -120,7 +120,7 @@ class ConsolePanel(Panel):
 				# self.parent.write_out("\n" + self.inp.getText())
 				# dirTex.setText(self.console.get_prompt())
 				# self.inp.setText("")
-				print(self.console.get_prompt())
+				print('####'+ self.console.get_prompt())
 				self.console.onecmd(self.inp.getText())
 				self.parent.write_out("\n" + self.inp.getText())
 				dirTex.setText(self.console.get_prompt())
