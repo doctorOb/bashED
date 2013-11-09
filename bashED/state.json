@@ -1,1 +1,1 @@
-{"initialized": false, "mission": "mission_two", "scenario": "ls_copy"}
+{"initialized": true, "mission": "mission_one", "scenario": "ls_find_file"}
