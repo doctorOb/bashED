@@ -5,11 +5,11 @@ from java.awt import Color
 from net.miginfocom.swing import MigLayout
 
 class Panel(JPanel):
-	def __init__(self):
-		self.setLayout(MigLayout())
+	def __init__(self, migLayoutSettings = ""):
+		self.setLayout(MigLayout(migLayoutSettings))
 
 		
-		self.setBorder(BorderFactory.createLineBorder(Color.RED))
+		#self.setBorder(BorderFactory.createLineBorder(Color.RED))
 
 		self.initUI()
 		self.addUI()
