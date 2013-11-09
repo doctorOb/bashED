@@ -21,7 +21,7 @@ class BashED_Console(cmd.Cmd):
 
     def __init__(self,stdin=None,stdout=None):
         cmd.Cmd.__init__(self,stdin=stdin,stdout=stdout)
-        self.prompt = os.getcwd() + SHELL_START
+        self.prompt = SHELL_START
         self.intro  = "Welcome to console!"  ## defaults to None
         self._root = os.getcwd()
         self.stdout = stdout
@@ -63,6 +63,10 @@ class BashED_Console(cmd.Cmd):
     def update_prompt(self):
         self.prompt = os.getcwd() + SHELL_START
 
+    def get_prompt(self):
+        print(self._root)
+        return self.prompt.replace(self._root,'')
+
     def get_hist(self, args):
         """return a list of commands that have been entered"""
         return self._hist
@@ -73,7 +77,7 @@ class BashED_Console(cmd.Cmd):
 
     def do_shell(self, args):
         """Pass command to a system shell when line begins with '!'"""
-        print subprocess.Popen(', '.join(args).replace(',',''), stdout=subprocess.PIPE, shell=True).communicate()[0]
+        print subprocess.Popen(args, stdout=subprocess.PIPE, shell=True).communicate()[0]
 
     ## Override methods in Cmd object ##
     def preloop(self):
