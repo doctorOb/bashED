@@ -6,6 +6,22 @@ MISSION_ORDER = os.path.join(MISSION_DIR, "mission_order.txt")
 SCENARIO_FILE = "scenario_order.txt"
 
 
+def get_first_mission():
+    mstr = ''
+    with open(MISSION_ORDER, 'r') as f:
+        mstr = f.readline()
+        module = importlib.import_module(os.path.join(MISSION_DIR, mstr, "mission"))
+        return module.Mission()
+
+
+def get_first_scenario(mission_str):
+    sstr = ''
+    with open(os.path.join(MISSION_DIR, mission_str, SCENARIO_FILE)) as f:
+        sstr = f.readline()
+        module = importlib.import_module(os.path.join(MISSION_DIR, mission_str, sstr, "scenario"))
+        return module.Scenario()
+
+
 def get_next_mission_str(prev_mission):
     """takes in the previous mission name, gives the next mission
     empty string if that was the last mission defined"""
