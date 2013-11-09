@@ -172,10 +172,23 @@ class BashED_Console(cmd.Cmd):
         matches = [x for x in os.listdir(search_dir) if x.startswith(text)]
 
         if len(matches) == 1: #just one, auto complete and fill in command name
-            return [line.replace(text,'') + ' ' + matches[0]]
+            return [line.replace(text,'') + matches[0]]
         else:
-            print matches
-            return matches
+            i = 0
+            tester = matches[0] #any arbitrary one will do, we're looking for the first inconsistency
+            while True:
+                try:
+                    candidate = tester[i]
+                except:
+                    break
+                for match in matches:
+                    if match[i] != candidate:
+                        stop = True
+                        break
+                if stop:
+                    break
+                i+=1
+            return [tester[0:i]]
 
     def tabcomplete(self,line):
         try:
