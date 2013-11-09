@@ -4,11 +4,11 @@ import readline
 
 CHDIR = 'cd'
 
-class Console(cmd.Cmd):
+class BashED_Console(cmd.Cmd):
 
     def __init__(self):
         cmd.Cmd.__init__(self)
-        self.prompt = "=>> "
+        self.prompt = os.getcwd() + ' $ '
         self.intro  = "Welcome to console!"  ## defaults to None
 
     ## Command definitions ##
@@ -73,7 +73,6 @@ class Console(cmd.Cmd):
         return stop
 
     def emptyline(self):    
-        """Do nothing on empty input line"""
         pass
 
     def default(self, line):       
@@ -85,11 +84,12 @@ class Console(cmd.Cmd):
             print path
             try:
                 os.chdir(path)
+                self.prompt = os.getcwd() + ' $ '
             except:
                 print('cd error')
         else:
             self.do_shell(line)
 
 if __name__ == '__main__':
-        console = Console()
-        console . cmdloop() 
+    console = BashED_Console()
+    console.cmdloop() 
