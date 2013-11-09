@@ -39,6 +39,6 @@ class DialogPanel(Panel):
 		self.dialogText.setText("Welcome to BashED!!!")
 
 	def addUI(self):
-		self.add(self.buttonsPanel, "cell 0 0")
+		self.add(self.buttonsPanel, "cell 0 0, pushy, growy")
 		self.add(self.dialogTextScroller, "cell 1 0, push, grow")
 		self.add(self.manLabel, "cell 2 0")
