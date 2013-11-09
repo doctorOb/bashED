@@ -8,7 +8,7 @@ from panel import Panel
 from buttonPanel import ButtonPanel 
 from java.awt import Color
 from java.awt import Font
-import bashed_run
+#import bashed_run
 
 import threading
 import time

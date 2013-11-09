@@ -32,7 +32,6 @@ def play():
     if scenario.validate():
         scenario.print_correct()
         next_scenario_str = get_next_scenario_str(state['mission'], state['scenario'])
-        print "next scenario is %s" % next_scenario_str
         if not next_scenario_str:
             #need to go to the next mission
             mission.print_correct()
