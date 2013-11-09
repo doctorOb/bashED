@@ -31,11 +31,16 @@ class DialogPanel(Panel):
 				threading.Thread.__init__(thrd)
 				thrd.text = text
 			def run(thrd):
-				for i in range(0, len(thrd.text)):
-					#print str(text[i])
+				text = thrd.text
+
+				for i in range(0, len(text)):
+					if text[i] == '-':
+						time.sleep(.05)
 					self.dialogText.setText(self.dialogText.getText() + text[i])
 					time.sleep(.1)
 				self.manLabel.setIcon(self.manImageSilent)
+					
+
 		Typer(text).start()
 		
 
