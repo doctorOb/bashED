@@ -94,8 +94,8 @@ class BashED_Console(cmd.Cmd):
             hist = self._hist[self._histidx-1]
             self._histidx-=1
         else:
-            self._histidx = -1
             hist = self._hist[self._histidx]
+            self._histidx = 0
         return hist
 
     def do_exit(self, args):

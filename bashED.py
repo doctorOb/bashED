@@ -7,14 +7,13 @@ import sys
 
 sys.path.append(os.path.abspath('bin'))
 sys.path.append(os.path.abspath('gui'))
-sys.path.append(os.path.abspath('bashED'))
+sys.path.append(os.path.abspath('.'))
 
 from mission_scenario_manager import get_first_mission_str, get_first_mission, get_scenario_by_str, get_first_scenario_str, get_first_scenario, get_next_scenario_str, get_next_mission_str, get_next_mission
 
 
 STATE_FILE = os.path.join("bashED", "state.json")
 MISSION_DIR = os.path.join("bashED", "missions")
-ASSET_BASE = os.path.abspath("bin/gui/media") + '/'
 
 
 def play():
@@ -122,7 +121,7 @@ if __name__ == '__main__':
     elif args.reset:
         reset()
     else: #start with a GUI
-        os.system('jython -Dpython.path=bin/gui/mig.jar bin/gui/window.py')
+        os.system('jython -Dpython.path=' + os.path.abspath('bin/gui/mig.jar') + ' ' + os.path.abspath('bin/gui/window.py'))
 
 
     #need to store the current state somewhere.
