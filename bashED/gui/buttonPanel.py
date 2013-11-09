@@ -18,7 +18,7 @@ class ButtonPanel(Panel):
 
 	def __init__(self, inconsolePanel):
 		self.consolePanel = inconsolePanel
-		Panel.__init__(self, "gap 1px 1px, insets 0 0 0 0, flowy")
+		Panel.__init__(self, " insets 0 0 0 0, flowy")
 
 	def initUI(self):
 
@@ -38,14 +38,13 @@ class ButtonPanel(Panel):
 				self.entImage = entImage
 				self.leaImage = leaImage
 				self.butt = butt
-			def mouseEntered(self, m):
-				print "entered"
-				self.butt.setIcon(self.entImage)
-				self.butt.repaint()
-			def mouseLeave(self, m):
-				print "left"
 				self.butt.setIcon(self.leaImage)
-				self.butt.repaint()
+			def mouseEntered(self, m):
+				self.butt.setIcon(self.entImage)
+				#self.butt.repaint()
+			def mouseExited(self, m):
+				self.butt.setIcon(self.leaImage)
+				#self.butt.repaint()
 
 
 		self.playButton = JButton(self.playButtonS)

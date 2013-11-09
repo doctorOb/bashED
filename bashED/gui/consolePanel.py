@@ -73,6 +73,8 @@ class ConsolePanel(Panel):
 		self.outText = JTextPane()
 		self.outText.setEditable(False)
 		self.outText.setFont(font)
+		#self.outText.setLineWrap(True)
+		#self.outText.setWrapStyleWord(True)
 		class NoGhostScroller(JScrollPane):
 			def paintComponent(self, g):
 				
